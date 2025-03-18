@@ -30003,45 +30003,30 @@ def step (step_no : Int) : SailM Bool := do
   let _ : Unit := (ext_post_step_hook ())
   (pure stepped)
 
+
 def loop (_ : Unit) : SailM Unit := do
   let insns_per_tick := (plat_insns_per_tick ())
-  let i : Int := 0
-  let step_no : Int := 0
-  let (u__3, i, step_no) ← (( do
-    let mut loop_vars := (i, step_no)
-    while (← (λ (i, step_no) => do (pure (not (← readReg htif_done)))) loop_vars) do
-      let (i, step_no) := loop_vars
-      loop_vars ← do
-        let stepped ← do (step step_no)
-        let step_no ← (( do
-          if stepped
-          then
-            let step_no : Int := (step_no +i 1)
-            let _ : Unit :=
-              if (get_config_print_instr ())
-              then (print_step ())
-              else ()
-            (cycle_count ())
-            (pure step_no)
-          else (pure step_no) ) : SailM Int )
-        (pure ((← do
-            if (← readReg htif_done)
-            then
-              let exit_val ← do (pure (BitVec.toNat (← readReg htif_exit_code)))
-              if (BEq.beq exit_val 0)
-              then (pure (print "SUCCESS"))
-              else (pure (print_int "FAILURE: " exit_val))
-            else
-              let i := ((i +i 1) : Int)
-              if (BEq.beq i insns_per_tick)
-              then
-                (tick_clock ())
-                (tick_platform ())
-                let i := (0 : Int)
-                (pure ())
-              else (pure ())), i, step_no))
-    (pure loop_vars) ) : SailM (Unit × Int × Int) )
-  (pure u__3)
+  let mut i : Int := 0
+  let mut step_no : Int := 0
+  while not (← readReg htif_done) do
+    let stepped ← step step_no
+    if stepped then
+      step_no := step_no + 1
+      if get_config_print_instr () then pure (print_step ())
+      cycle_count ()
+
+    if ← readReg htif_done then
+      let exit_val := BitVec.toNat (← readReg htif_exit_code)
+      if exit_val == 0 then
+        pure (print "SUCCESS")
+      else
+        pure (print_int "FAILURE: " exit_val)
+    else
+      i := i + 1
+      if i == insns_per_tick then
+        tick_clock ()
+        tick_platform ()
+        i := 0
 
 def reset (_ : Unit) : SailM Unit := do
   (reset_sys ())
