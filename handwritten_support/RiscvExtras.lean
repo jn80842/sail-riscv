@@ -9,6 +9,9 @@ def print_string (_ : String) (_ : String) : Unit := ()
 def prerr_string (_: String) : Unit := ()
 def putchar {T} (_: T ) : Unit := ()
 def string_of_int (z : Int) := s!"{z}"
+def print_int (_: String) (z : Int) : Unit := ()
+def print_endline (_: String) : Unit := ()
+def print (_: String) : Unit := ()
 
 axiom sys_enable_writable_misa : Unit → Bool
 axiom sys_enable_rvc : Unit → Bool
