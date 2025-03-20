@@ -1068,7 +1068,7 @@ abbrev SailM := PreSailM RegisterType trivialChoiceSource exception
 instance : Arch where
   va_size := 64
   pa := (BitVec 64)
-  pa_OfNat := fun i => BitVec.instOfNat (n := 64) (i := i)
+  pa_OfNat := BitVec.instOfNat
   abort := Unit
   translation := Unit
   fault := Unit
