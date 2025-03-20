@@ -43,18 +43,18 @@ section defs
 variable [Arch]
 
 -- Platform definitions
-def plat_ram_base [OfNat Arch.pa 0x80000000] (_:Unit) : Arch.pa := OfNat.ofNat 0x80000000
-def plat_ram_size [OfNat Arch.pa 0x80000000] (_:Unit) : Arch.pa := OfNat.ofNat 0x80000000
+def plat_ram_base (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80000000)).ofNat
+def plat_ram_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80000000)).ofNat
 def elf_tohost (_:Unit) : Int := panic "TODO"
 def elf_entry (_:Unit) : Int := panic "TODO"
 def plat_enable_dirty_update (_:Unit) : Bool := false
 def plat_enable_misaligned_access (_:Unit) : Bool := panic "TODO"
 def plat_mtval_has_illegal_inst_bits  (_:Unit) : Bool := false
-def plat_rom_base [OfNat Arch.pa 0x1000] (_:Unit) : Arch.pa := OfNat.ofNat 0x1000
-def plat_rom_size [OfNat Arch.pa 0x100] (_:Unit) : Arch.pa := OfNat.ofNat 0x100
-def plat_htif_tohost [OfNat Arch.pa 0x80001000] (_:Unit) : Arch.pa := OfNat.ofNat 0x80001000
-def plat_clint_base [OfNat Arch.pa 0x2000000] (_:Unit) : Arch.pa := OfNat.ofNat 0x2000000
-def plat_clint_size [OfNat Arch.pa 0xc0000] (_:Unit) : Arch.pa := OfNat.ofNat 0xc0000
+def plat_rom_base (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x1000)).ofNat
+def plat_rom_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x100)).ofNat
+def plat_htif_tohost (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80001000)).ofNat
+def plat_clint_base (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x2000000)).ofNat
+def plat_clint_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0xc0000)).ofNat
 def plat_insns_per_tick (_:Unit) : Int := 100
 def plat_cache_block_size_exp (_:Unit) : Int := 6
 
