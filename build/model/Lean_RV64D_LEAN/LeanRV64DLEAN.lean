@@ -12,8 +12,6 @@ set_option match.ignoreUnusedAlts true
 
 open Sail
 
-noncomputable section
-
 open zicondop
 open wxfunct6
 open wvxfunct6
@@ -18176,7 +18174,7 @@ def csr_mnemonic_backwards_matches (arg_ : String) : Bool :=
   | "csrrc" => true
   | _ => false
 
-noncomputable def encdec_forwards (arg_ : ast) : SailM (BitVec 32) := do
+def encdec_forwards (arg_ : ast) : SailM (BitVec 32) := do
   match arg_ with
   | .UTYPE (imm, rd, op) =>
     (pure ((imm : (BitVec 20)) ++ ((encdec_reg_forwards rd) ++ (encdec_uop_forwards op))))
@@ -18483,7 +18481,7 @@ noncomputable def encdec_forwards (arg_ : ast) : SailM (BitVec 32) := do
     assert false "Pattern match failure at unknown location"
     throw Error.Exit
 
-noncomputable def encdec_backwards (arg_ : (BitVec 32)) : SailM ast := do
+def encdec_backwards (arg_ : (BitVec 32)) : SailM ast := do
   let head_exp_ := arg_
   match (← do
     let v__206 := head_exp_
@@ -20372,7 +20370,7 @@ noncomputable def encdec_backwards (arg_ : (BitVec 32)) : SailM ast := do
                                                                                         (pure (ILLEGAL
                                                                                             s))
 
-noncomputable def encdec_forwards_matches (arg_ : ast) : SailM Bool := do
+def encdec_forwards_matches (arg_ : ast) : SailM Bool := do
   match arg_ with
   | .UTYPE (imm, rd, op) => (pure true)
   | .RISCV_JAL (v__207, rd) =>
@@ -20514,7 +20512,7 @@ noncomputable def encdec_forwards_matches (arg_ : ast) : SailM Bool := do
   | .ILLEGAL s => (pure true)
   | _ => (pure false)
 
-noncomputable def encdec_backwards_matches (arg_ : (BitVec 32)) : SailM Bool := do
+def encdec_backwards_matches (arg_ : (BitVec 32)) : SailM Bool := do
   let head_exp_ := arg_
   match (← do
     let v__411 := head_exp_
@@ -22302,7 +22300,7 @@ noncomputable def encdec_backwards_matches (arg_ : (BitVec 32)) : SailM Bool := 
                                                                                       | s =>
                                                                                         (pure true)
 
-noncomputable def encdec_compressed_forwards (arg_ : ast) : SailM (BitVec 16) := do
+def encdec_compressed_forwards (arg_ : ast) : SailM (BitVec 16) := do
   match arg_ with
   | .C_NOP () =>
     if (← (extensionEnabled Ext_Zca))
@@ -22780,7 +22778,7 @@ noncomputable def encdec_compressed_forwards (arg_ : ast) : SailM (BitVec 16) :=
     assert false "Pattern match failure at unknown location"
     throw Error.Exit
 
-noncomputable def encdec_compressed_backwards (arg_ : (BitVec 16)) : SailM ast := do
+def encdec_compressed_backwards (arg_ : (BitVec 16)) : SailM ast := do
   let head_exp_ := arg_
   match (← do
     let v__607 := head_exp_
@@ -23944,7 +23942,7 @@ noncomputable def encdec_compressed_backwards (arg_ : (BitVec 16)) : SailM ast :
                                                                         match head_exp_ with
                                                                         | s => (pure (C_ILLEGAL s))
 
-noncomputable def encdec_compressed_forwards_matches (arg_ : ast) : SailM Bool := do
+def encdec_compressed_forwards_matches (arg_ : ast) : SailM Bool := do
   match arg_ with
   | .C_NOP () =>
     if (← (extensionEnabled Ext_Zca))
@@ -24168,7 +24166,7 @@ noncomputable def encdec_compressed_forwards_matches (arg_ : ast) : SailM Bool :
   | .C_ILLEGAL s => (pure true)
   | _ => (pure false)
 
-noncomputable def encdec_compressed_backwards_matches (arg_ : (BitVec 16)) : SailM Bool := do
+def encdec_compressed_backwards_matches (arg_ : (BitVec 16)) : SailM Bool := do
   let head_exp_ := arg_
   match (← do
     let v__811 := head_exp_
