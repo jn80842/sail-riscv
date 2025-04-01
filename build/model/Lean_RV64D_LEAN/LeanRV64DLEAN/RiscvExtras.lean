@@ -9,9 +9,6 @@ def print_string (_ : String) (_ : String) : Unit := ()
 def prerr_string (_: String) : Unit := ()
 def putchar {T} (_: T ) : Unit := ()
 def string_of_int (z : Int) := s!"{z}"
-def print_int (_: String) (z : Int) : Unit := ()
-def print_endline (_: String) : Unit := ()
-def print (_: String) : Unit := ()
 
 -- From: https://github.com/riscv/sail-riscv/blob/46a813bd847272a8e0901c7310bd362f7ffc303e/c_emulator/riscv_platform_impl.cpp
 def sys_enable_writable_misa (_:Unit) : Bool := true
@@ -27,6 +24,7 @@ def sys_enable_zicbom (_:Unit) : Bool := false
 def sys_enable_zicboz (_:Unit) : Bool := false
 def sys_enable_sstc (_:Unit) : Bool := false
 def sys_writable_hpm_counters (_:Unit) : BitVec 32 := (0xFFFFFFFF:UInt32).toBitVec
+def sys_enable_zvkb (_: Unit) := false
 
 def sys_vext_vl_use_ceil (_:Unit) : Bool := false
 def sys_vector_elen_exp (_:Unit) : Nat := 0x6
@@ -144,18 +142,7 @@ def extern_f32roundToInt : BitVec 3 → BitVec 32 → Bool → Unit := λ _ => p
 def extern_f64roundToInt : BitVec 3 → BitVec 64 → Bool → Unit := λ _ => panic "TODO"
 
 -- Termination of extensionEnabled
-
-
 instance : SizeOf extension where
-  sizeOf x :=
-    match x with
-    | .Ext_Zihpm => 0
-    | .Ext_B => 0
-    | .Ext_C => 0
-    | .Ext_D => 0
-    | .Ext_F => 0
-    | .Ext_Zfh => 0
-    | .Ext_Zca => 1
-    | _ => 2
+  sizeOf := extension.toCtorIdx
 
-macro_rules | `(tactic| decreasing_trivial) => `(tactic| simp [sizeOf])
+macro_rules | `(tactic| decreasing_trivial) => `(tactic| decide)

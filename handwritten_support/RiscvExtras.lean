@@ -9,9 +9,6 @@ def print_string (_ : String) (_ : String) : Unit := ()
 def prerr_string (_: String) : Unit := ()
 def putchar {T} (_: T ) : Unit := ()
 def string_of_int (z : Int) := s!"{z}"
-def print_int (_: String) (z : Int) : Unit := ()
-def print_endline (_: String) : Unit := ()
-def print (_: String) : Unit := ()
 
 -- From: https://github.com/riscv/sail-riscv/blob/46a813bd847272a8e0901c7310bd362f7ffc303e/c_emulator/riscv_platform_impl.cpp
 def sys_enable_writable_misa (_:Unit) : Bool := true

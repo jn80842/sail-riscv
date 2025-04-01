@@ -44,6 +44,18 @@ def addInt {w : Nat} (x : BitVec w) (i : Int) : BitVec w :=
 def subInt (x : BitVec w) (i : Int) : BitVec w :=
   x - BitVec.ofInt w i
 
+def countLeadingZeros (x : BitVec w) : Nat :=
+  if h : w = 0 || BitVec.msb x then
+    0
+  else
+    1 + countLeadingZeros (x.extractLsb' 0 (w - 1))
+  decreasing_by
+    simp only [Bool.or_eq_true, decide_eq_true_eq, not_or, Bool.not_eq_true] at h
+    omega
+
+def countTrailingZeros (x : BitVec w) : Nat :=
+  countLeadingZeros (x.reverse)
+
 def append' (x : BitVec n) (y : BitVec m) {mn}
     (hmn : mn = n + m := by (conv => rhs; simp); try rfl) : BitVec mn :=
   (x.append y).cast hmn.symm
@@ -84,6 +96,18 @@ def parse_hex_bits_digits (n : Nat) (str : String) : BitVec n :=
     BitVec.append bv c |>.cast (by simp_all)
 decreasing_by simp_all <;> omega
 
+def parse_dec_bits (n : Nat) (str : String) : BitVec n :=
+  go str
+where
+  go (str : String) :=
+    if h : str.isEmpty then 0 else
+      let lsd := str.get! ⟨0⟩
+      let rest := str.drop 1
+      have : rest.length < str.length := by sorry
+      (charToHex lsd).signExtend n + 10#n * go rest
+  termination_by str.length
+
+
 def parse_hex_bits (n : Nat) (str : String) : BitVec n :=
   let bv := parse_hex_bits_digits (round4 n) (str.drop 2)
   bv.setWidth n
@@ -94,6 +118,10 @@ def valid_hex_bits (n : Nat) (str : String) : Bool :=
   str.all fun x => x.toLower ∈
     ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'] &&
   2 ^ n > (parse_hex_bits_digits (round4 n) str).toNat
+
+def valid_dec_bits (_ : Nat) (str : String) : Bool :=
+  str.all fun x => x.toLower ∈
+    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 def shift_bits_left (bv : BitVec n) (sh : BitVec m) : BitVec n :=
   bv <<< sh
@@ -220,7 +248,7 @@ def trivialChoiceSource : ChoiceSource where
 class Arch where
   va_size : Nat
   pa : Type
-  pa_OfNat {n : Nat} : OfNat pa n
+  pa_OfNat {n} : OfNat pa n
   arch_ak : Type
   translation : Type
   abort : Type
@@ -252,13 +280,16 @@ inductive Access_variety where
   | AV_plain
   | AV_exclusive
   | AV_atomic_rmw
-deriving DecidableEq
+  deriving Inhabited, DecidableEq
+
 export Access_variety (AV_plain AV_exclusive AV_atomic_rmw)
 
 inductive Access_strength where
   | AS_normal
   | AS_rel_or_acq
   | AS_acq_rcpc
+  deriving Inhabited, DecidableEq
+
 export Access_strength(AS_normal AS_rel_or_acq AS_acq_rcpc)
 
 structure Explicit_access_kind where
@@ -270,6 +301,8 @@ inductive Access_kind (arch : Type) where
   | AK_ifetch (_ : Unit)
   | AK_ttw (_ : Unit)
   | AK_arch (_ : arch)
+  deriving Inhabited
+
 export Access_kind(AK_explicit AK_ifetch AK_ttw AK_arch)
 
 inductive Result (α : Type) (β : Type) where
@@ -285,6 +318,7 @@ structure Mem_read_request
   translation : ts
   size : Int
   tag : Bool
+  deriving Inhabited
 
 structure Mem_write_request
   (n : Nat) (vasize : Nat) (pa : Type) (ts : Type) (arch_ak : Type) where
@@ -295,10 +329,23 @@ structure Mem_write_request
   size : Int
   value : (Option (BitVec (8 * n)))
   tag : (Option Bool)
+  deriving Inhabited
 
 end ConcurrencyInterface
 
 end PreSailTypes
+
+def print_int : String → Int → Unit := fun _ _ => ()
+
+def prerr_int : String → Int → Unit := fun _ _ => ()
+
+def print_endline : String → Unit := fun _  => ()
+
+def prerr_endline : String → Unit := fun _ => ()
+
+def print : String → Unit := fun _ => ()
+
+def prerr : String → Unit := fun _ => ()
 
 end Sail
 
@@ -349,6 +396,9 @@ def undefined_bool (_ : Unit) : PreSailM RegisterType c ue Bool :=
 def undefined_int (_ : Unit) : PreSailM RegisterType c ue Int :=
   choose .int
 
+def undefined_range (low high : Int) : PreSailM RegisterType c ue Int := do
+  pure (low + (← choose .int) % (high - low))
+
 def undefined_nat (_ : Unit) : PreSailM RegisterType c ue Nat :=
   choose .nat
 
@@ -391,9 +441,7 @@ def assert (p : Bool) (s : String) : PreSailM RegisterType c ue Unit :=
 section ConcurrencyInterface
 
 def writeByte (addr : Nat) (value : BitVec 8) : PreSailM RegisterType c ue PUnit := do
-  match (← get).mem.containsThenInsert addr value with
-    | (true, m) => modify fun s => { s with mem := m }
-    | (false, _) => throw (.OutOfMemoryRange addr)
+  modify fun s => { s with mem := s.mem.insert addr value }
 
 def writeBytes (addr : Nat) (value : BitVec (8 * n)) : PreSailM RegisterType c ue Bool := do
   let list := List.ofFn (λ i : Fin n => (addr + i.val, value.extractLsb' (8 * i.val) 8))
@@ -423,8 +471,8 @@ def readBytes (size : Nat) (addr : Nat) : PreSailM RegisterType c ue ((BitVec (8
   | n + 1 => do
     let b ← readByte addr
     let (bytes, bool) ← readBytes n (addr+1)
-    have h : 8 + 8 * n = 8 * (n + 1) := by omega
-    return (h ▸ b.append bytes, bool)
+    have h : 8 * n + 8 = 8 * (n + 1) := by omega
+    return (h ▸ bytes.append b, bool)
 
 def sail_mem_read [Arch] (req : Mem_read_request n vasize (BitVec pa_size) ts arch) : PreSailM RegisterType c ue (Result ((BitVec (8 * n)) × (Option Bool)) Arch.abort) := do
   let addr := req.pa.toNat
@@ -542,3 +590,8 @@ notation:50 x "≥b" y => decide (x ≥ y)
 notation:50 x ">b" y => decide (x > y)
 
 macro_rules | `(tactic| decreasing_trivial) => `(tactic| simp_all <;> omega)
+
+-- This lemma replaces `bif` by `if` in functions when Lean is trying to prove
+-- termination.
+@[wf_preprocess]
+theorem cond_eq_ite (b : Bool) (x y : α) : cond b x y = ite b x y := by cases b <;> rfl

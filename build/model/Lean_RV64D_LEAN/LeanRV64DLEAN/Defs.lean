@@ -14,7 +14,7 @@ open Sail
 inductive option (k_a : Type) where
   | Some (_ : k_a)
   | None (_ : Unit)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev bits k_n := (BitVec k_n)
 
@@ -22,7 +22,7 @@ abbrev xlenbits := (BitVec (2 ^ 3 * 8))
 
 inductive virtaddr where
   | virtaddr (_ : xlenbits)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev max_mem_access : Int := 4096
 
@@ -31,7 +31,7 @@ abbrev mem_access_width := Nat
 inductive exception where
   | Error_not_implemented (_ : String)
   | Error_internal_error (_ : Unit)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev log2_xlen_bytes : Int := 3
 
@@ -59,7 +59,7 @@ abbrev physaddrbits := (BitVec 64)
 
 inductive physaddr where
   | physaddr (_ : physaddrbits)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev mem_meta := Unit
 
@@ -74,9 +74,9 @@ inductive barrier_kind where | Barrier_RISCV_rw_rw | Barrier_RISCV_r_rw | Barrie
 
 structure RISCV_strong_access where
   variety : Access_variety
-  deriving BEq
+  deriving Inhabited, BEq
 
-inductive extension where | Ext_M | Ext_F | Ext_D | Ext_C | Ext_B | Ext_V | Ext_S | Ext_U | Ext_Zicbom | Ext_Zicboz | Ext_Zicntr | Ext_Zicond | Ext_Zifencei | Ext_Zihpm | Ext_Zmmul | Ext_Zaamo | Ext_Zabha | Ext_Zalrsc | Ext_Zfa | Ext_Zfh | Ext_Zfhmin | Ext_Zfinx | Ext_Zdinx | Ext_Zca | Ext_Zcb | Ext_Zcd | Ext_Zcf | Ext_Zba | Ext_Zbb | Ext_Zbc | Ext_Zbkb | Ext_Zbkc | Ext_Zbkx | Ext_Zbs | Ext_Zknd | Ext_Zkne | Ext_Zknh | Ext_Zkr | Ext_Zksed | Ext_Zksh | Ext_Zhinx | Ext_Sscofpmf | Ext_Sstc | Ext_Svinval | Ext_Svnapot | Ext_Svpbmt | Ext_Smcntrpmf
+inductive extension where | Ext_M | Ext_F | Ext_D | Ext_C | Ext_B | Ext_V | Ext_S | Ext_U | Ext_Zicbom | Ext_Zicboz | Ext_Zicntr | Ext_Zicond | Ext_Zifencei | Ext_Zihpm | Ext_Zimop | Ext_Zmmul | Ext_Zaamo | Ext_Zabha | Ext_Zalrsc | Ext_Zfa | Ext_Zfh | Ext_Zfhmin | Ext_Zfinx | Ext_Zdinx | Ext_Zca | Ext_Zcb | Ext_Zcd | Ext_Zcf | Ext_Zcmop | Ext_Zba | Ext_Zbb | Ext_Zbc | Ext_Zbkb | Ext_Zbkc | Ext_Zbkx | Ext_Zbs | Ext_Zknd | Ext_Zkne | Ext_Zknh | Ext_Zkr | Ext_Zksed | Ext_Zksh | Ext_Zhinx | Ext_Zvbb | Ext_Zvkb | Ext_Zvbc | Ext_Sscofpmf | Ext_Sstc | Ext_Svinval | Ext_Svnapot | Ext_Svpbmt | Ext_Smcntrpmf
   deriving Inhabited, BEq
 
 abbrev exc_code := (BitVec 8)
@@ -97,17 +97,17 @@ abbrev pagesize_bits : Int := 12
 
 inductive regidx where
   | Regidx (_ : (BitVec 5))
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive cregidx where
   | Cregidx (_ : (BitVec 3))
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev csreg := (BitVec 12)
 
 inductive regno where
   | Regno (_ : Nat)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev opcode := (BitVec 7)
 
@@ -133,7 +133,7 @@ inductive AccessType (k_a : Type) where
   | Write (_ : k_a)
   | ReadWrite (_ : (k_a × k_a))
   | Execute (_ : Unit)
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive ExceptionType where
   | E_Fetch_Addr_Align (_ : Unit)
@@ -153,7 +153,7 @@ inductive ExceptionType where
   | E_Reserved_14 (_ : Unit)
   | E_SAMO_Page_Fault (_ : Unit)
   | E_Extension (_ : ext_exc_type)
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive amoop where | AMOSWAP | AMOADD | AMOXOR | AMOAND | AMOOR | AMOMIN | AMOMAX | AMOMINU | AMOMAXU
   deriving Inhabited, BEq
@@ -171,7 +171,7 @@ structure mul_op where
   high : Bool
   signed_rs1 : Bool
   signed_rs2 : Bool
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive rop where | RISCV_ADD | RISCV_SUB | RISCV_SLL | RISCV_SLT | RISCV_SLTU | RISCV_XOR | RISCV_SRL | RISCV_SRA | RISCV_OR | RISCV_AND
   deriving Inhabited, BEq
@@ -258,7 +258,8 @@ inductive ast where
   | MULW (_ : (regidx × regidx × regidx))
   | DIVW (_ : (regidx × regidx × regidx × Bool))
   | REMW (_ : (regidx × regidx × regidx × Bool))
-  | CSR (_ : (csreg × regidx × regidx × Bool × csrop))
+  | CSRReg (_ : (csreg × regidx × regidx × csrop))
+  | CSRImm (_ : (csreg × (BitVec 5) × regidx × csrop))
   | C_NOP_HINT (_ : (BitVec 6))
   | C_ADDI_HINT (_ : regidx)
   | C_LI_HINT (_ : (BitVec 6))
@@ -270,7 +271,10 @@ inductive ast where
   | C_SRAI_HINT (_ : cregidx)
   | FENCE_RESERVED (_ : ((BitVec 4) × (BitVec 4) × (BitVec 4) × regidx × regidx))
   | FENCEI_RESERVED (_ : ((BitVec 12) × regidx × regidx))
-  deriving BEq
+  | ZIMOP_MOP_R (_ : ((BitVec 5) × regidx × regidx))
+  | ZIMOP_MOP_RR (_ : ((BitVec 3) × regidx × regidx × regidx))
+  | ZCMOP (_ : (BitVec 3))
+  deriving Inhabited, BEq
 
 inductive PTW_Error where
   | PTW_Invalid_Addr (_ : Unit)
@@ -280,7 +284,7 @@ inductive PTW_Error where
   | PTW_Misaligned (_ : Unit)
   | PTW_PTE_Update (_ : Unit)
   | PTW_Ext_Error (_ : ext_ptw_error)
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive Retired where | RETIRE_SUCCESS | RETIRE_FAIL
   deriving Inhabited, BEq
@@ -339,9 +343,9 @@ inductive zicondop where | RISCV_CZERO_EQZ | RISCV_CZERO_NEZ
 
 abbrev level_range (k_v : Nat) := Nat
 
-abbrev pte_bits k_v := (BitVec (if k_v = 32 then 32 else 64))
+abbrev pte_bits k_v := (BitVec (bif k_v = 32 then 32 else 64))
 
-abbrev ppn_bits k_v := (BitVec (if k_v = 32 then 22 else 44))
+abbrev ppn_bits k_v := (BitVec (bif k_v = 32 then 22 else 44))
 
 abbrev vpn_bits k_v := (BitVec (k_v - 12))
 
@@ -473,8 +477,6 @@ inductive PmpAddrMatchType where | OFF | TOR | NA4 | NAPOT
 
 abbrev Pmpcfg_ent := (BitVec 8)
 
-abbrev pmp_addr_range_in_words := (Option (xlenbits × xlenbits))
-
 inductive pmpAddrMatch where | PMP_NoMatch | PMP_PartialMatch | PMP_Match
   deriving Inhabited, BEq
 
@@ -485,24 +487,24 @@ inductive pmpMatch where | PMP_Success | PMP_Continue | PMP_Fail
 inductive Ext_FetchAddr_Check (k_a : Type) where
   | Ext_FetchAddr_OK (_ : virtaddr)
   | Ext_FetchAddr_Error (_ : k_a)
-  deriving BEq
+  deriving Inhabited, BEq
 
 /-- Type quantifiers: k_a : Type -/
 inductive Ext_ControlAddr_Check (k_a : Type) where
   | Ext_ControlAddr_OK (_ : virtaddr)
   | Ext_ControlAddr_Error (_ : k_a)
-  deriving BEq
+  deriving Inhabited, BEq
 
 /-- Type quantifiers: k_a : Type -/
 inductive Ext_DataAddr_Check (k_a : Type) where
   | Ext_DataAddr_OK (_ : virtaddr)
   | Ext_DataAddr_Error (_ : k_a)
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive Ext_PhysAddr_Check where
   | Ext_PhysAddr_OK (_ : Unit)
   | Ext_PhysAddr_Error (_ : ExceptionType)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev ext_fetch_addr_error := Unit
 
@@ -693,11 +695,11 @@ inductive vmlsop where | VLM | VSM
 
 inductive vregidx where
   | Vregidx (_ : (BitVec 5))
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive vregno where
   | Vregno (_ : Nat)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev Vcsr := (BitVec 3)
 
@@ -707,7 +709,7 @@ structure sync_exception where
   trap : ExceptionType
   excinfo : (Option xlenbits)
   ext : (Option ext_exception)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev HpmEvent := (BitVec 64)
 
@@ -722,7 +724,7 @@ inductive ctl_result where
   | CTL_TRAP (_ : sync_exception)
   | CTL_SRET (_ : Unit)
   | CTL_MRET (_ : Unit)
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev MemoryOpResult k_a := (Result k_a ExceptionType)
 
@@ -739,7 +741,7 @@ abbrev PTE_Flags := (BitVec 8)
 inductive PTE_Check where
   | PTE_Check_Success (_ : ext_ptw)
   | PTE_Check_Failure (_ : (ext_ptw × ext_ptw_fail))
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev tlb_vpn_bits : Int := (57 - 12)
 
@@ -753,7 +755,7 @@ structure TLB_Entry where
   ppn : (BitVec 44)
   pte : (BitVec 64)
   pteAddr : physaddr
-  deriving BEq
+  deriving Inhabited, BEq
 
 abbrev num_tlb_entries : Int := 64
 
@@ -766,26 +768,26 @@ structure PTW_Output (k_v : Nat) where
   pteAddr : physaddr
   level : (level_range k_v)
   global : Bool
-  deriving BEq
+  deriving Inhabited, BEq
 
 /-- Type quantifiers: k_v : Int, is_sv_mode(k_v) -/
 inductive PTW_Result (k_v : Nat) where
   | PTW_Success (_ : ((PTW_Output k_v) × ext_ptw))
   | PTW_Failure (_ : (PTW_Error × ext_ptw))
-  deriving BEq
+  deriving Inhabited, BEq
 
 /-- Type quantifiers: k_paddr : Type, k_failure : Type -/
 inductive TR_Result (k_paddr : Type) (k_failure : Type) where
   | TR_Address (_ : (k_paddr × ext_ptw))
   | TR_Failure (_ : (k_failure × ext_ptw))
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive FetchResult where
   | F_Ext_Error (_ : ext_fetch_addr_error)
   | F_Base (_ : word)
   | F_RVC (_ : half)
   | F_Error (_ : (ExceptionType × xlenbits))
-  deriving BEq
+  deriving Inhabited, BEq
 
 inductive Register : Type where
   | satp
