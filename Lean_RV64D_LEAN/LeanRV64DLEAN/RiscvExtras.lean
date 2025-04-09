@@ -57,6 +57,9 @@ def plat_cache_block_size_exp (_:Unit) : Int := 6
 
 section Effectful
 
+-- open Functions
+open PreSail
+
 variable {Register : Type} {RegisterType : Register → Type} [DecidableEq Register] [Hashable Register]
 
 def plat_term_write {α} : α → SailM Unit := λ _ => panic "TODO: plat_term_write"
