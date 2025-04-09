@@ -526,11 +526,11 @@ def main_of_sail_main (initialState : SequentialState RegisterType c) (main : Un
   match res with
   | .ok _ s => do
     for m in s.sailOutput do
-      IO.print m
+      IO.println m
     return 0
   | .error e s => do
     for m in s.sailOutput do
-      IO.print m
+      IO.println m
     IO.eprintln s!"Error while running the sail program!: {e.print}"
     return 1
 
