@@ -8,6 +8,8 @@
 
 default Order dec
 
+$define PRINT_EFFECTS
+
 $include <smt.sail>
 $include <option.sail>
 $include <arith.sail>

@@ -161,7 +161,8 @@ def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
 
 def sail_main (_ : Unit) : SailM Unit := do
   writeReg PC (get_entry_point ())
-  (pure (print_bits "PC = " (← readReg PC)))
+  -- (pure (print_bits "PC = " (← readReg PC)))
+  print_bits_effect "PC = " (← readReg PC)
   sailTryCatch ((do
       (init_model ())
       (cycle_count ())

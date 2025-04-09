@@ -860,6 +860,7 @@ def extensionEnabled (merge_var : extension) : SailM Bool := do
   | Ext_Zimop => (pure true)
   | Ext_Zcmop => (pure (Bool.and true (← (extensionEnabled Ext_Zca))))
   | _ => (do
+      -- assert false s!"Pattern match failure at riscv_insts_zcmop.sail:9.0-9.78: {repr merge_var}"
       assert false "Pattern match failure at riscv_insts_zcmop.sail:9.0-9.78"
       throw Error.Exit)
 
