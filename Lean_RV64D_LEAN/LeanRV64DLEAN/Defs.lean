@@ -153,7 +153,7 @@ inductive ExceptionType where
   | E_Reserved_14 (_ : Unit)
   | E_SAMO_Page_Fault (_ : Unit)
   | E_Extension (_ : ext_exc_type)
-  deriving Inhabited, BEq
+  deriving Inhabited, BEq, Repr
 
 inductive amoop where | AMOSWAP | AMOADD | AMOXOR | AMOAND | AMOOR | AMOMIN | AMOMAX | AMOMINU | AMOMAXU
   deriving Inhabited, BEq
@@ -787,7 +787,7 @@ inductive FetchResult where
   | F_Base (_ : word)
   | F_RVC (_ : half)
   | F_Error (_ : (ExceptionType × xlenbits))
-  deriving Inhabited, BEq
+  deriving Inhabited, BEq, Repr
 
 inductive Register : Type where
   | satp

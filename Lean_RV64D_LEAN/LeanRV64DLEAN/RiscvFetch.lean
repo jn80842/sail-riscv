@@ -160,7 +160,7 @@ def isRVC (h : (BitVec 16)) : Bool :=
   (not (BEq.beq (Sail.BitVec.extractLsb h 1 0) (0b11 : (BitVec 2))))
 
 def fetch (_ : Unit) : SailM FetchResult := do
-  match (ext_fetch_check_pc (← readReg PC) (← readReg PC)) with
+  let result <- match (ext_fetch_check_pc (← readReg PC) (← readReg PC)) with
   | .Ext_FetchAddr_Error e => (pure (F_Ext_Error e))
   | .Ext_FetchAddr_OK use_pc => (do
       let use_pc_bits := (virtaddr_bits use_pc)
@@ -189,4 +189,6 @@ def fetch (_ : Unit) : SailM FetchResult := do
                               match (← (mem_read (Execute ()) ppchi 2 false false false)) with
                               | .Err e => (pure (F_Error (e, PC_hi)))
                               | .Ok ihi => (pure (F_Base (ihi ++ ilo))))))))))
+  pure (print_endline s!"Fetched result: {repr result}")
+  pure result
 
