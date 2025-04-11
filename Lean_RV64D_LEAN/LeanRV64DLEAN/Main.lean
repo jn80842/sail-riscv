@@ -161,8 +161,8 @@ def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
   (zero_extend (m := ((2 ^i 3) *i 8)) (2147483648 : (BitVec 16))) -- TODO: Hack for ELF I'm testing on. We need a way to define this from the ELF..
 
 def sail_main (_ : Unit) : SailM Unit := do
+  print_bits_effect "get_entry_point = " (get_entry_point ())
   writeReg PC (get_entry_point ())
-  -- (pure (print_bits "PC = " (← readReg PC)))
   print_bits_effect "PC = " (← readReg PC)
   sailTryCatch ((do
       (init_model ())

@@ -157,69 +157,133 @@ open Architecture
 open AccessType
 
 def initialize_registers (_ : Unit) : SailM Unit := do
+  dbg_trace "initialize_registers 1"
   writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers 2"
   writeReg nextPC (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg instbits (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x1 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x2 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x3 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x4 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x5 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x6 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x7 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x8 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x9 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x10 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x11 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x12 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x13 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x14 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x15 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x16 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x17 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x18 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x19 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x20 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x21 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x22 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x23 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x24 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x25 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x26 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x27 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x28 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x29 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x30 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg x31 (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg cur_privilege (← (undefined_Privilege ()))
+  dbg_trace "initialize_registers "
   writeReg cur_inst (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg mie (← (undefined_Minterrupts ()))
+  dbg_trace "initialize_registers "
   writeReg mip (← (undefined_Minterrupts ()))
+  dbg_trace "initialize_registers "
   writeReg medeleg (← (undefined_Medeleg ()))
+  dbg_trace "initialize_registers "
   writeReg mideleg (← (undefined_Minterrupts ()))
+  dbg_trace "initialize_registers "
   writeReg mtvec (← (undefined_Mtvec ()))
+  dbg_trace "initialize_registers "
   writeReg mcause (← (undefined_Mcause ()))
+  dbg_trace "initialize_registers "
   writeReg mepc (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg mtval (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg mscratch (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg scounteren (← (undefined_Counteren ()))
+  dbg_trace "initialize_registers "
   writeReg mcounteren (← (undefined_Counteren ()))
+  dbg_trace "initialize_registers "
   writeReg mcountinhibit (← (undefined_Counterin ()))
+  dbg_trace "initialize_registers "
   writeReg mcycle (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg mtime (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg minstret (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg minstret_increment (← (undefined_bool ()))
+  dbg_trace "initialize_registers "
   writeReg stvec (← (undefined_Mtvec ()))
+  dbg_trace "initialize_registers "
   writeReg sscratch (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg sepc (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg scause (← (undefined_Mcause ()))
+  dbg_trace "initialize_registers "
   writeReg stval (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg tselect (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg vstart (← (undefined_bitvector 16))
+  dbg_trace "initialize_registers "
   writeReg vl (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  dbg_trace "initialize_registers "
   writeReg vtype (← (undefined_Vtype ()))
+  dbg_trace "initialize_registers "
   writeReg pmpcfg_n (← (undefined_vector 64 (← (undefined_Pmpcfg_ent ()))))
+  dbg_trace "initialize_registers "
   writeReg pmpaddr_n (← (undefined_vector 64 (← (undefined_bitvector ((2 ^i 3) *i 8)))))
+  dbg_trace "initialize_registers "
   writeReg vr0 (← (undefined_bitvector 65536))
   writeReg vr1 (← (undefined_bitvector 65536))
   writeReg vr2 (← (undefined_bitvector 65536))
@@ -252,23 +316,39 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg vr29 (← (undefined_bitvector 65536))
   writeReg vr30 (← (undefined_bitvector 65536))
   writeReg vr31 (← (undefined_bitvector 65536))
+  dbg_trace "initialize_registers "
   writeReg vcsr (← (undefined_Vcsr ()))
+  dbg_trace "initialize_registers "
   writeReg mhpmevent (← (undefined_vector 32 (← (undefined_HpmEvent ()))))
+  dbg_trace "initialize_registers "
   writeReg mhpmcounter (← (undefined_vector 32 (← (undefined_bitvector 64))))
+  dbg_trace "initialize_registers "
   writeReg mcyclecfg (← (undefined_CountSmcntrpmf ()))
+  dbg_trace "initialize_registers "
   writeReg minstretcfg (← (undefined_CountSmcntrpmf ()))
+  dbg_trace "initialize_registers "
   writeReg mtimecmp (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg stimecmp (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg htif_tohost (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg htif_done (← (undefined_bool ()))
+  dbg_trace "initialize_registers "
   writeReg htif_exit_code (← (undefined_bitvector 64))
+  dbg_trace "initialize_registers "
   writeReg htif_cmd_write (← (undefined_bit ()))
+  dbg_trace "initialize_registers "
   writeReg htif_payload_writes (← (undefined_bitvector 4))
+  dbg_trace "initialize_registers "
   writeReg satp (← (undefined_bitvector ((2 ^i 3) *i 8)))
 
 def sail_model_init (x_0 : Unit) : SailM Unit := do
+  dbg_trace "sail_model_init 1"
   writeReg misa (_update_Misa_MXL (Mk_Misa (zeros_implicit (n := 64))) (architecture_forwards RV64))
+  dbg_trace "sail_model_init 2"
   writeReg mstatus (let mxl := (architecture_forwards RV64)
+  dbg_trace "sail_model_init 3"
   (_update_Mstatus_UXL
     (_update_Mstatus_SXL (Mk_Mstatus (zeros_implicit (n := 64)))
       (bif (Bool.and (bne xlen 32) (sys_enable_supervisor ()))
@@ -277,18 +357,29 @@ def sail_model_init (x_0 : Unit) : SailM Unit := do
     (bif (Bool.and (bne xlen 32) (sys_enable_user ()))
     then mxl
     else (zeros_implicit (n := 2)))))
+  dbg_trace "sail_model_init 4"
   writeReg menvcfg (← (legalize_menvcfg (Mk_MEnvcfg (zeros_implicit (n := 64)))
       (zeros_implicit (n := 64))))
+  dbg_trace "sail_model_init 5"
   writeReg senvcfg (← (legalize_senvcfg (Mk_SEnvcfg (zeros_implicit (n := 64)))
       (zeros_implicit (n := ((2 ^i 3) *i 8)))))
+  dbg_trace "sail_model_init 6"
   writeReg minstret_write none
+  dbg_trace "sail_model_init 7"
   writeReg minstreth_write none
+  dbg_trace "sail_model_init 8"
   writeReg mvendorid (zeros_implicit (n := 32))
+  dbg_trace "sail_model_init 9"
   writeReg mimpid (zeros_implicit (n := ((2 ^i 3) *i 8)))
+  dbg_trace "sail_model_init 10"
   writeReg marchid (zeros_implicit (n := ((2 ^i 3) *i 8)))
+  dbg_trace "sail_model_init 11"
   writeReg mhartid (zeros_implicit (n := ((2 ^i 3) *i 8)))
+  dbg_trace "sail_model_init 12"
   writeReg mconfigptr (zeros_implicit (n := ((2 ^i 3) *i 8)))
+  dbg_trace "sail_model_init 13"
   writeReg tlb (vectorInit none)
+  dbg_trace "sail_model_init 14"
   (initialize_registers ())
 
 end LeanRV64DLEAN.Functions
