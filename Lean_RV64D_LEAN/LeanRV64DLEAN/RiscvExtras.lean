@@ -4,10 +4,18 @@ import LeanRV64DLEAN.Defs
 
 open Sail
 
-def print_bits (_ : String) (_ : BitVec n) : Unit := ()
-def print_string (_ : String) (_ : String) : Unit := ()
-def prerr_string (_: String) : Unit := ()
-def putchar {T} (_: T ) : Unit := ()
+def print_bits (str : String) (x : BitVec n) : Unit :=
+  dbg_trace s!"{str}{BitVec.toFormatted x}\n";
+  ()
+def print_string (str : String) (s : String) : Unit :=
+  dbg_trace s!"{str}{s}\n";
+  ()
+def prerr_string (s: String) : Unit :=
+  dbg_trace s!"{s}\n";
+  ()
+def putchar {T} [ToString T] (c: T ) : Unit :=
+  dbg_trace s!"{c}\n";
+  ()
 def string_of_int (z : Int) := s!"{z}"
 
 -- From: https://github.com/riscv/sail-riscv/blob/46a813bd847272a8e0901c7310bd362f7ffc303e/c_emulator/riscv_platform_impl.cpp

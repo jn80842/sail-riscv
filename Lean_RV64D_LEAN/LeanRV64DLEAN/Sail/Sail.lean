@@ -494,6 +494,8 @@ def get_cycle_count (_ : Unit) : PreSailM RegisterType c ue Nat := do
 end ConcurrencyInterface
 
 def print_effect (str : String) : PreSailM RegisterType c ue Unit :=
+  do
+  dbg_trace str
   modify fun s ↦ { s with sailOutput := s.sailOutput.push str }
 
 def print_int_effect (str : String) (n : Int) : PreSailM RegisterType c ue Unit :=
