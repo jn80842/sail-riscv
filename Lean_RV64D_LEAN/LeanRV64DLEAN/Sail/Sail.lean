@@ -335,17 +335,29 @@ end ConcurrencyInterface
 
 end PreSailTypes
 
-def print_int : String → Int → Unit := fun _ _ => ()
+def print_int : String → Int → Unit := fun str n =>
+  dbg_trace s!"{str}{n}\n"
+  ()
 
-def prerr_int : String → Int → Unit := fun _ _ => ()
+def prerr_int : String → Int → Unit := fun str n =>
+  dbg_trace s!"{str}{n}\n"
+  ()
 
-def print_endline : String → Unit := fun _  => ()
+def print_endline : String → Unit := fun str  =>
+  dbg_trace s!"{str}\n"
+  ()
 
-def prerr_endline : String → Unit := fun _ => ()
+def prerr_endline : String → Unit := fun str =>
+  dbg_trace s!"{str}\n"
+  ()
 
-def print : String → Unit := fun _ => ()
+def print : String → Unit := fun str =>
+  dbg_trace s!"{str}"
+  ()
 
-def prerr : String → Unit := fun _ => ()
+def prerr : String → Unit := fun str =>
+  dbg_trace s!"{str}"
+  ()
 
 end Sail
 

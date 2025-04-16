@@ -233,6 +233,12 @@ def step (step_no : Int) : SailM Bool := do
   let _ : Unit := (ext_post_step_hook ())
   (pure stepped)
 
+def my_print_step (_: PUnit) : SailM Unit := do
+  -- let s <- EStateM.get
+  -- dbg_trace s!"my_print_step: {s.regs}"
+  pure ()
+
+
 def loop (_ : Unit) : SailM Unit := do
   let insns_per_tick := (plat_insns_per_tick ())
   let i : Int := 0
@@ -245,6 +251,7 @@ def loop (_ : Unit) : SailM Unit := do
       dbg_trace s!"reg_htif_done: {(← readReg htif_done)}"
       loop_vars ← do
         let stepped ← do (step step_no)
+        (my_print_step ())
         let step_no ← (( do
           bif stepped
           then
