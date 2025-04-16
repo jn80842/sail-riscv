@@ -706,11 +706,17 @@ def mmio_write (paddr : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
       else (pure (Err (E_SAMO_Access_Fault ()))))
 
 def init_platform (_ : Unit) : SailM Unit := do
+  dbg_trace "init_platform 1"
   writeReg htif_tohost (zeros_implicit (n := 64))
+  dbg_trace "init_platform 2"
   writeReg htif_done false
+  dbg_trace "init_platform 3"
   writeReg htif_exit_code (zeros_implicit (n := 64))
+  dbg_trace "init_platform 4"
   writeReg htif_cmd_write 0#1
+  dbg_trace "init_platform 5"
   writeReg htif_payload_writes (zeros_implicit (n := 4))
+  dbg_trace "init_platform 6"
 
 def tick_platform (_ : Unit) : SailM Unit := do
   (htif_tick ())

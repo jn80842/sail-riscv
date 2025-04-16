@@ -165,8 +165,11 @@ def sail_main (_ : Unit) : SailM Unit := do
   writeReg PC (get_entry_point ())
   print_bits_effect "PC = " (← readReg PC)
   sailTryCatch ((do
+      dbg_trace "sail_main 1"
       (init_model ())
+      dbg_trace "sail_main 2"
       (cycle_count ())
+      dbg_trace "sail_main 3"
       (loop ()))) (fun the_exception => 
     match the_exception with
       | .Error_not_implemented s => (pure (print_string "Error: Not implemented: " s))

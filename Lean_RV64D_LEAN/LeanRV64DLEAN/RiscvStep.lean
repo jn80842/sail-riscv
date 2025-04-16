@@ -280,11 +280,18 @@ def loop (_ : Unit) : SailM Unit := do
   (pure ())
 
 def reset (_ : Unit) : SailM Unit := do
+  dbg_trace "reset 1"
   (reset_sys ())
+  dbg_trace "reset 2"
   (reset_vmem ())
+  dbg_trace "reset 3"
   (pure (ext_reset ()))
+  dbg_trace "reset 4"
 
 def init_model (_ : Unit) : SailM Unit := do
+  dbg_trace "init_model 1"
   (init_platform ())
+  dbg_trace "init_model 2"
   (reset ())
+  dbg_trace "init_model 3"
 

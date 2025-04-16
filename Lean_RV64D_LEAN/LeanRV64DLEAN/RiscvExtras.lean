@@ -53,7 +53,7 @@ def plat_ram_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80000000)).ofNat
 def elf_tohost (_:Unit) : Int := 0 -- TODO: Hack to hardcode tohost
 def elf_entry (_:Unit) : Int := panic "TODO: elf_entry"
 def plat_enable_dirty_update (_:Unit) : Bool := false
-def plat_enable_misaligned_access (_:Unit) : Bool := panic "TODO: plat_enable_misaligned_access"
+def plat_enable_misaligned_access (_:Unit) : Bool := false
 def plat_mtval_has_illegal_inst_bits  (_:Unit) : Bool := false
 def plat_rom_base (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x1000)).ofNat
 def plat_rom_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x100)).ofNat
