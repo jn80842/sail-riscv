@@ -177,10 +177,10 @@ def print_step (_ : Unit) : Unit :=
   ()
 
 def get_config_print_instr (_ : Unit) : Bool :=
-  false
+  true -- false
 
 def get_config_print_reg (_ : Unit) : Bool :=
-  false
+  true -- false
 
 def get_config_print_mem (_ : Unit) : Bool :=
   false
