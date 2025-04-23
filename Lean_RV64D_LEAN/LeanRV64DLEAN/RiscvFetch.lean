@@ -189,6 +189,5 @@ def fetch (_ : Unit) : SailM FetchResult := do
                               match (← (mem_read (Execute ()) ppchi 2 false false false)) with
                               | .Err e => (pure (F_Error (e, PC_hi)))
                               | .Ok ihi => (pure (F_Base (ihi ++ ilo))))))))))
-  pure (print_endline s!"Fetched result: {repr result}")
+ -- pure (print_endline s!"Fetched result: {repr result}")
   pure result
-
