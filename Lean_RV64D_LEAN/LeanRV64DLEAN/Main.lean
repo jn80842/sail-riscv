@@ -157,8 +157,8 @@ open Architecture
 open AccessType
 
 def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
-  -- (zero_extend (m := ((2 ^i 3) *i 8)) (0x1000 : (BitVec 16)))
-  2147483648 -- TODO: Hack for ELF I'm testing on. We need a way to define this from the ELF..
+  (zero_extend (m := ((2 ^i 3) *i 8)) (0x8001 : (BitVec 16)))
+  --2147483648 -- TODO: Hack for ELF I'm testing on. We need a way to define this from the ELF..
 
 def sail_main (_ : Unit) : SailM Unit := do
   print_bits_effect "get_entry_point = " (get_entry_point ())
@@ -170,8 +170,7 @@ def sail_main (_ : Unit) : SailM Unit := do
       dbg_trace "sail_main 2"
       (cycle_count ())
       dbg_trace "sail_main 3"
-      (loop ()))) (fun the_exception => 
+      (loop ()))) (fun the_exception =>
     match the_exception with
       | .Error_not_implemented s => (pure (print_string "Error: Not implemented: " s))
       | .Error_internal_error () => (pure (print "Error: internal error")))
-
