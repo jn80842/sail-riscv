@@ -184,7 +184,7 @@ def step (step_no : Int) : SailM Bool := do
             let ast ← do (ext_decode_compressed h)
             bif (get_config_print_instr ())
             then
-              (pure (print_endline
+              (pure (print
                   (HAppend.hAppend "["
                     (HAppend.hAppend (Int.repr step_no)
                       (HAppend.hAppend "] ["
@@ -211,7 +211,7 @@ def step (step_no : Int) : SailM Bool := do
             let ast ← do (ext_decode w)
             bif (get_config_print_instr ())
             then
-              (pure (print_endline
+              (pure (print
                   (HAppend.hAppend "["
                     (HAppend.hAppend (Int.repr step_no)
                       (HAppend.hAppend "] ["
@@ -236,7 +236,6 @@ def step (step_no : Int) : SailM Bool := do
 def my_print_step (_: PUnit) : SailM Unit := do
   -- let s <- EStateM.get
   -- dbg_trace s!"my_print_step: {s.regs}"
-  dbg_trace s!"my print step"
   pure ()
 
 
@@ -248,8 +247,8 @@ def loop (_ : Unit) : SailM Unit := do
     let mut loop_vars := (i, step_no)
     while (← (λ (i, step_no) => do (pure (not (← readReg htif_done)))) loop_vars) do
       let (i, step_no) := loop_vars
-      dbg_trace s!"loop: {loop_vars}"
-      dbg_trace s!"reg_htif_done: {(← readReg htif_done)}"
+    --  dbg_trace s!"loop: {loop_vars}"
+    --  dbg_trace s!"reg_htif_done: {(← readReg htif_done)}"
       loop_vars ← do
         let stepped ← do (step step_no)
         (my_print_step ())
