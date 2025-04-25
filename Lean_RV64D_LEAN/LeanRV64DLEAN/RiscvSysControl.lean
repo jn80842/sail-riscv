@@ -1112,7 +1112,9 @@ def reset_sys (_ : Unit) : SailM Unit := do
   writeReg mstatus (Sail.BitVec.updateSubrange (← readReg mstatus) 3 3 (0b0 : (BitVec 1)))
   writeReg mstatus (Sail.BitVec.updateSubrange (← readReg mstatus) 17 17 (0b0 : (BitVec 1)))
   (reset_misa ())
+  dbg_trace "about to cancel reservation"
   (cancel_reservation ())
+  dbg_trace "canceled the reservation"
   writeReg mcause (zeros_implicit (n := ((2 ^i 3) *i 8)))
   (reset_pmp ())
   writeReg vstart (zeros_implicit (n := 16))
