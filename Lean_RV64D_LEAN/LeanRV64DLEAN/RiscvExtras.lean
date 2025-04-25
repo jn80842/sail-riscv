@@ -50,7 +50,7 @@ variable [Arch]
 -- Platform definitions
 def plat_ram_base (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80000000)).ofNat
 def plat_ram_size (_:Unit) : Arch.pa := (Arch.pa_OfNat (n := 0x80000000)).ofNat
-def elf_tohost (_:Unit) : Int := 2147487744 --UINT64_C(0x80001000); --0 -- TODO: Hack to hardcode tohost JLN TODO!!!
+def elf_tohost (_:Unit) : Int := 2147487744 -- 0x80001000
 def elf_entry (_:Unit) : Int := panic "TODO: elf_entry"
 def plat_enable_dirty_update (_:Unit) : Bool := false
 def plat_enable_misaligned_access (_:Unit) : Bool := false

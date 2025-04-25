@@ -242,9 +242,8 @@ def wX (typ_0 : regno) (in_v : (BitVec (2 ^ 3 * 8))) : SailM Unit := do
     (let _ : Unit := (rvfi_wX (Regno r) in_v)
     bif (get_config_print_reg ())
     then
-      (pure ())
-     -- (pure (print_endline
-     --     (HAppend.hAppend "x" (HAppend.hAppend (Int.repr r) (HAppend.hAppend " <- " (RegStr v))))))
+      (pure (print
+          (HAppend.hAppend "x" (HAppend.hAppend (Int.repr r) (HAppend.hAppend " <- " (RegStr v))))))
     else (pure ()))
   else (pure ())
 
