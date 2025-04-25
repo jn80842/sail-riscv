@@ -1107,6 +1107,7 @@ def reset_misa (_ : Unit) : SailM Unit := do
     (bool_to_bits (sys_enable_fdext ())))
 
 def reset_sys (_ : Unit) : SailM Unit := do
+  dbg_trace "reset_sys"
   writeReg cur_privilege Machine
   writeReg mstatus (Sail.BitVec.updateSubrange (← readReg mstatus) 3 3 (0b0 : (BitVec 1)))
   writeReg mstatus (Sail.BitVec.updateSubrange (← readReg mstatus) 17 17 (0b0 : (BitVec 1)))
@@ -1147,4 +1148,3 @@ def MemoryOpResult_drop_meta (r : (Result (k_t × Unit) ExceptionType)) : (Resul
   match r with
   | .Ok (v, m) => (Ok v)
   | .Err e => (Err e)
-
