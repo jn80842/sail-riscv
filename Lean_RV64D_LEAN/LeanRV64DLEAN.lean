@@ -156,9 +156,10 @@ open ExceptionType
 open Architecture
 open AccessType
 
-def initialize_registers (_ : Unit) : SailM Unit := do
+def initialize_registers (regs : Std.DHashMap Register RegisterType) : SailM Unit := do
   dbg_trace "initialize_registers PC"
-  writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  writeReg PC (← (regs.get(zero_extend (m := ((2 ^i 3) *i 8)) PC)))
+  -- writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers nextPC"
   writeReg nextPC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers instbits"
