@@ -157,8 +157,8 @@ open Architecture
 open AccessType
 
 def initialize_registers (_ : Unit) : SailM Unit := do
-  -- PC should be in initial registers from ELF file, don't clobber
   -- dbg_trace "initialize_registers PC"
+  print_bits_effect "PC = " (← readReg PC)
   -- writeReg PC (← (regs.get(zero_extend ((2 ^i 3) *i 8)) PC))
   -- writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers nextPC"
