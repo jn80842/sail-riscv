@@ -156,9 +156,10 @@ open ExceptionType
 open Architecture
 open AccessType
 
-def initialize_registers (regs : Std.DHashMap Register RegisterType) : SailM Unit := do
-  dbg_trace "initialize_registers PC"
-  writeReg PC (← (regs.get(zero_extend (m := ((2 ^i 3) *i 8)) PC)))
+def initialize_registers (_ : Unit) : SailM Unit := do
+  -- PC should be in initial registers from ELF file, don't clobber
+  -- dbg_trace "initialize_registers PC"
+  -- writeReg PC (← (regs.get(zero_extend ((2 ^i 3) *i 8)) PC))
   -- writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers nextPC"
   writeReg nextPC (← (undefined_bitvector ((2 ^i 3) *i 8)))
@@ -357,4 +358,4 @@ end LeanRV64DLEAN.Functions
 open LeanRV64DLEAN.Functions
 
 /- def main (_ : List String) : IO UInt32 := do -/
-/-   main_of_sail_main ⟨default, (), default, default, default, default⟩ (sail_model_init >=> sail_main) -/
+/-   main_of_sail_main ⟨default, (), default, default, default, default⟩ ( >=> sail_main) -/
