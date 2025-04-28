@@ -156,15 +156,7 @@ open ExceptionType
 open Architecture
 open AccessType
 
-def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
-  --(zero_extend (m := ((2 ^i 3) *i 8)) (0x80000000 : (BitVec 16)))
-  --2147483648 -- TODO: Hack for ELF I'm testing on. We need a way to define this from the ELF..
-  (0x0080000000 : (BitVec 64))
-
 def sail_main (_ : Unit) : SailM Unit := do
-  --print_bits_effect "get_entry_point = " (get_entry_point ())
-  --writeReg PC (get_entry_point ())
-  --print_bits_effect "PC = " (← readReg PC)
   sailTryCatch ((do
       dbg_trace "sail_main 1"
       (init_model ())
