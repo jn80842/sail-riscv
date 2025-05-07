@@ -1755,16 +1755,19 @@ def doCSR (csr : (BitVec 12)) (rs1_val : (BitVec (2 ^ 3 * 8))) (rd : regidx) (op
   bif (not (← (check_CSR csr (← readReg cur_privilege) is_CSR_Write)))
   then
     (do
+      dbg_trace("doCSR 1")
       (handle_illegal ())
       (pure RETIRE_FAIL))
   else
     (do
+      dbg_trace("doCSR 2")
       bif (not (ext_check_CSR csr (← readReg cur_privilege) is_CSR_Write))
       then
         (let _ : Unit := (ext_check_CSR_fail ())
         (pure RETIRE_FAIL))
       else
         (do
+          dbg_trace("do CSR 3")
           let is_CSR_Read := (not (Bool.and (BEq.beq op CSRRW) (BEq.beq rd zreg)))
           let csr_val ← (( do
             bif is_CSR_Read
@@ -1773,6 +1776,7 @@ def doCSR (csr : (BitVec 12)) (rs1_val : (BitVec (2 ^ 3 * 8))) (rd : regidx) (op
           bif is_CSR_Write
           then
             (do
+              dbg_trace("do CSR 4")
               let new_val : xlenbits :=
                 match op with
                 | CSRRW => rs1_val
@@ -1791,6 +1795,7 @@ def doCSR (csr : (BitVec 12)) (rs1_val : (BitVec (2 ^ 3 * 8))) (rd : regidx) (op
               else (pure ()))
           else
             (do
+              dbg_trace("do CSR 5")
               bif (get_config_print_reg ())
               then
                 (pure (print_endline
