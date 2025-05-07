@@ -97,15 +97,14 @@ def parse_hex_bits_digits (n : Nat) (str : String) : BitVec n :=
 decreasing_by simp_all <;> omega
 
 def parse_dec_bits (n : Nat) (str : String) : BitVec n :=
-  go str
+  go str.length str
 where
-  go (str : String) :=
-    if h : str.isEmpty then 0 else
-      let lsd := str.get! ⟨0⟩
-      let rest := str.drop 1
-      have : rest.length < str.length := by sorry
-      (charToHex lsd).signExtend n + 10#n * go rest
-  termination_by str.length
+  -- TODO: when there are lemmas about `String.take`, replace with WF induction
+  go (fuel : Nat) (str : String) :=
+    if fuel = 0 then 0 else
+      let lsd := str.get! ⟨str.length - 1⟩
+      let rest := str.take (str.length - 1)
+      (charToHex lsd).setWidth n + 10#n * go (fuel-1) rest
 
 
 def parse_hex_bits (n : Nat) (str : String) : BitVec n :=
