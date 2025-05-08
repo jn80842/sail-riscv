@@ -38,8 +38,8 @@ def sys_vext_vl_use_ceil (_:Unit) : Bool := false
 def sys_vector_elen_exp (_:Unit) : Nat := 0x6
 def sys_vector_vlen_exp (_:Unit) : Nat := 0x9
 
-def sys_pmp_count (_:Unit) : Nat := 16
-theorem sys_pmp_count_ok : 0 ≤ sys_pmp_count () ∧ sys_pmp_count () ≤ 64 := by simp; rw [sys_pmp_count]; simp
+--def sys_pmp_count (_:Unit) : Nat := 16
+--theorem sys_pmp_count_ok : 0 ≤ sys_pmp_count () ∧ sys_pmp_count () ≤ 64 := by simp; rw [sys_pmp_count]; simp
 def sys_pmp_grain (_:Unit) : Nat := 0
 theorem sys_pmp_grain_ok : 0 ≤ sys_pmp_grain () ∧ sys_pmp_grain () ≤ 63 := by simp; rw [sys_pmp_grain]; simp
 
