@@ -163,4 +163,3 @@ def concat_str_bits (str : String) (x : (BitVec k_n)) : String :=
 /-- Type quantifiers: x : Int -/
 def concat_str_dec (str : String) (x : Int) : String :=
   (HAppend.hAppend str (Int.repr x))
-

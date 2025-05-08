@@ -214,6 +214,7 @@ def check_seed_CSR (csr : (BitVec 12)) (p : Privilege) (isWrite : Bool) : Bool :
       | User => false))
 
 def is_CSR_defined (b__0 : (BitVec 12)) : SailM Bool := do
+  dbg_trace s!"sys_pmp_count {sys_pmp_count ()}"
   bif (BEq.beq b__0 (0x301 : (BitVec 12)))
   then (pure true)
   else
