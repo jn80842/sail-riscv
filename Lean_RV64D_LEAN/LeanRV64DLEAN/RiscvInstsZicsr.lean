@@ -1751,7 +1751,7 @@ def write_CSR (b__0 : (BitVec 12)) (value : (BitVec (2 ^ 3 * 8))) : SailM (BitVe
 
 /-- Type quantifiers: k_ex109450# : Bool -/
 def doCSR (csr : (BitVec 12)) (rs1_val : (BitVec (2 ^ 3 * 8))) (rd : regidx) (op : csrop) (is_CSR_Write : Bool) : SailM Retired := do
-  dbg_trace s!"csr: {csr} rs1_val: {rs1_val}" -- rd: {rd} op: {op} TODO: how to print these
+  dbg_trace s!"csr: {csr} rs1_val: {rs1_val} op: {csr_mnemonic_forwards op}" -- rd: {rd} op: {op} TODO: how to print these
   bif (not (← (check_CSR csr (← readReg cur_privilege) is_CSR_Write)))
   then
     (do
