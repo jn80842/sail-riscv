@@ -199,7 +199,7 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg x30 (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg x31 (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers cur_privilege"
-  writeReg cur_privilege (← (undefined_Privilege ()))
+  writeReg cur_privilege User --(← (undefined_Privilege ()))
   dbg_trace "initialize_registers cur_inst"
   writeReg cur_inst (← (undefined_bitvector ((2 ^i 3) *i 8)))
   dbg_trace "initialize_registers mie"
