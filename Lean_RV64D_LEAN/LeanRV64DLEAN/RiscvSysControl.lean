@@ -851,6 +851,7 @@ def is_CSR_defined (b__0 : (BitVec 12)) : SailM Bool := do
 
 /-- Type quantifiers: k_ex105963# : Bool -/
 def check_CSR (csr : (BitVec 12)) (p : Privilege) (isWrite : Bool) : SailM Bool := do
+  dbg_trace s!"is_CSR_defined {(← (is_CSR_defined csr))} check_CSR_priv {(check_CSR_priv csr p)} check_TVM_SATP {(← (check_TVM_SATP csr p))} check_Counteren {(← (check_Counteren csr p))} check_Stimecmp {(← (check_Stimecmp csr p))} check_seed_CSR {(check_seed_CSR csr p isWrite)}"
   (pure (Bool.and (← (is_CSR_defined csr))
       (Bool.and (check_CSR_priv csr p)
         (Bool.and (check_CSR_access csr isWrite)
