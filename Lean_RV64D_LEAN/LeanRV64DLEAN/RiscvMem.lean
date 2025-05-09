@@ -199,7 +199,7 @@ def phys_mem_read (t : (AccessType Unit)) (paddr : physaddr) (width : Nat) (aq :
   | (_, .some (v, m)) => (let _ : Unit :=
       bif (get_config_print_mem ())
       then
-        (dbg_trace
+        (print_endline
           (HAppend.hAppend "mem["
             (HAppend.hAppend (accessType_to_str t)
               (HAppend.hAppend ","
@@ -294,7 +294,7 @@ def phys_mem_write (wk : write_kind) (paddr : physaddr) (width : Nat) (data : (B
   let _ : Unit :=
     bif (get_config_print_mem ())
     then
-      (dbg_trace
+      (print_endline
         (HAppend.hAppend "mem["
           (HAppend.hAppend (BitVec.toFormatted (physaddr_bits paddr))
             (HAppend.hAppend "] <- " (BitVec.toFormatted data)))))
