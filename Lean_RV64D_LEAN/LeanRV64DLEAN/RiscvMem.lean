@@ -199,7 +199,7 @@ def phys_mem_read (t : (AccessType Unit)) (paddr : physaddr) (width : Nat) (aq :
   | (_, .some (v, m)) => (let _ : Unit :=
       bif (get_config_print_mem ())
       then
-        (print_endline
+        (dbg_trace
           (HAppend.hAppend "mem["
             (HAppend.hAppend (accessType_to_str t)
               (HAppend.hAppend ","
@@ -294,7 +294,7 @@ def phys_mem_write (wk : write_kind) (paddr : physaddr) (width : Nat) (data : (B
   let _ : Unit :=
     bif (get_config_print_mem ())
     then
-      (print_endline
+      (dbg_trace
         (HAppend.hAppend "mem["
           (HAppend.hAppend (BitVec.toFormatted (physaddr_bits paddr))
             (HAppend.hAppend "] <- " (BitVec.toFormatted data)))))
@@ -347,4 +347,3 @@ def mem_write_value_meta (paddr : physaddr) (width : Nat) (value : (BitVec (8 * 
   width ∧ width ≤ max_mem_access -/
 def mem_write_value (paddr : physaddr) (width : Nat) (value : (BitVec (8 * width))) (aq : Bool) (rl : Bool) (con : Bool) : SailM (Result Bool ExceptionType) := do
   (mem_write_value_meta paddr width value default_write_acc default_meta aq rl con)
-
