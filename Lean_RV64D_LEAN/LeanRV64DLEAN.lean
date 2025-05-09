@@ -304,7 +304,8 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   dbg_trace "initialize_registers stimecmp"
   writeReg stimecmp (← (undefined_bitvector 64))
   dbg_trace "initialize_registers htif_tohost"
-  writeReg htif_tohost (← (undefined_bitvector 64))
+  writeReg htif_tohost (0x80001000)
+--  writeReg htif_tohost (← (undefined_bitvector 64))
   dbg_trace "initialize_registers htif_done"
   writeReg htif_done (← (undefined_bool ()))
   dbg_trace "initialize_registers htif_exit_code"
@@ -319,7 +320,7 @@ def initialize_registers (_ : Unit) : SailM Unit := do
 def sail_model_init (x_0 : Unit) : SailM Unit := do
   dbg_trace "sail_model_init misa"
   writeReg misa (_update_Misa_MXL (Mk_Misa (zeros_implicit (n := 64))) (architecture_forwards RV64))
-  dbg_trace "sail_model_init mstatus"
+
   writeReg mstatus (let mxl := (architecture_forwards RV64)
   dbg_trace "sail_model_init mxl"
   (_update_Mstatus_UXL
@@ -330,6 +331,8 @@ def sail_model_init (x_0 : Unit) : SailM Unit := do
     (bif (Bool.and (bne xlen 32) (sys_enable_user ()))
     then mxl
     else (zeros_implicit (n := 2)))))
+  dbg_trace "sail_model_init mstatus"
+  writeReg mstatus (zeros_implicit (n := 64))
   dbg_trace "sail_model_init menvcfg"
   writeReg menvcfg (← (legalize_menvcfg (Mk_MEnvcfg (zeros_implicit (n := 64)))
       (zeros_implicit (n := 64))))
