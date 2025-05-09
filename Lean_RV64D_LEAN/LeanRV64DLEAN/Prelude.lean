@@ -304,7 +304,7 @@ def to_bits (l : Nat) (n : Int) : (BitVec l) :=
 
 /-- Type quantifiers: k_n : Nat, k_n > 0 -/
 def zopz0zI_s (x : (BitVec k_n)) (y : (BitVec k_n)) : Bool :=
-  dbg_trace s!"BLT {BitVec.toInt x} < {(BitVec.toInt y)}"
+  dbg_trace s!"BLT {BitVec.toInt x} ({x}) < {(BitVec.toInt y)} ({y})"
   ((BitVec.toInt x) <b (BitVec.toInt y))
 
 /-- Type quantifiers: k_n : Nat, k_n > 0 -/
