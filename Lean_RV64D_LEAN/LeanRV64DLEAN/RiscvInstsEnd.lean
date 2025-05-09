@@ -11372,6 +11372,7 @@ def execute_C_EBREAK (_ : Unit) : SailM Retired := do
   (execute_EBREAK ())
 
 def execute_BTYPE (imm : (BitVec 13)) (rs2 : regidx) (rs1 : regidx) (op : bop) : SailM Retired := do
+  dbg_trace "executing BTYPE op"
   let taken ← (( do
     match op with
     | RISCV_BEQ => (pure (BEq.beq (← (rX_bits rs1)) (← (rX_bits rs2))))
@@ -11384,6 +11385,7 @@ def execute_BTYPE (imm : (BitVec 13)) (rs2 : regidx) (rs1 : regidx) (op : bop) :
   then
     (do
       let target ← do (pure ((← readReg PC) + (sign_extend (m := ((2 ^i 3) *i 8)) imm)))
+      dbg_trace s!"target of BTYPE op is {target}"
       match (ext_control_check_pc target) with
       | .Ext_ControlAddr_Error e => (let _ : Unit := (ext_handle_control_check_error e)
         (pure RETIRE_FAIL))
@@ -11775,4 +11777,3 @@ def assembly_forwards_matches (arg_ : ast) : Bool :=
 def assembly_backwards_matches (arg_ : String) : SailM Bool := do
   match arg_ with
   | _ => throw Error.Exit
-
