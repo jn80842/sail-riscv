@@ -251,6 +251,7 @@ def satp_to_ppn (satp_val : (BitVec k_n)) : (BitVec (bif k_n = 32 then 22 else 4
   else (_get_Satp64_PPN (Mk_Satp64 satp_val))
 
 def translationMode (priv : Privilege) : SailM SATPMode := do
+  dbg_trace("translationMode")
   bif (BEq.beq priv Machine)
   then (pure Bare)
   else
@@ -418,4 +419,3 @@ def translateAddr (vAddr : virtaddr) (ac : (AccessType Unit)) : SailM (TR_Result
 
 def reset_vmem (_ : Unit) : SailM Unit := do
   (reset_TLB ())
-

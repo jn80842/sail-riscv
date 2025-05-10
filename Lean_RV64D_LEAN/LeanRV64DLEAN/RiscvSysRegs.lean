@@ -1256,6 +1256,7 @@ def legalize_mstatus (o : (BitVec 64)) (v : (BitVec 64)) : SailM (BitVec 64) := 
   (pure (_update_Mstatus_SD o (bool_to_bits dirty)))
 
 def cur_architecture (_ : Unit) : SailM Architecture := do
+  dbg_trace("cur_architecture")
   let a ← (( do
     match (← readReg cur_privilege) with
     | Machine => (pure (_get_Misa_MXL (← readReg misa)))
@@ -2298,4 +2299,3 @@ def get_vtype_vma (_ : Unit) : SailM agtype := do
 
 def get_vtype_vta (_ : Unit) : SailM agtype := do
   (pure (decode_agtype (_get_Vtype_vta (← readReg vtype))))
-
