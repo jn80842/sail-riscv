@@ -253,7 +253,8 @@ def satp_to_ppn (satp_val : (BitVec k_n)) : (BitVec (bif k_n = 32 then 22 else 4
 def translationMode (priv : Privilege) : SailM SATPMode := do
   dbg_trace("translationMode")
   bif (BEq.beq priv Machine)
-  then (pure Bare)
+  then dbg_trace "translationMode in Machine privilege"
+    (pure Bare)
   else
     (do
       let arch ← do (architecture_backwards (get_mstatus_SXL (← readReg mstatus)))
