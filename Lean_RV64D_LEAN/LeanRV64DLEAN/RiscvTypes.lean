@@ -212,6 +212,7 @@ def architecture_forwards (arg_ : Architecture) : (BitVec 2) :=
   | RV128 => (0b11 : (BitVec 2))
 
 def architecture_backwards (arg_ : (BitVec 2)) : SailM Architecture := do
+  dbg_trace s!"archiecture_backwards arg: {arg_}"
   let b__0 := arg_
   bif (BEq.beq b__0 (0b01 : (BitVec 2)))
   then (pure RV32)
