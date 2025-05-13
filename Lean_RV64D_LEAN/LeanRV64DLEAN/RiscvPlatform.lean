@@ -578,7 +578,7 @@ def htif_load (t : (AccessType Unit)) (app_1 : physaddr) (width : Nat) : SailM (
 /-- Type quantifiers: width : Nat, 0 < width ∧ width ≤ 8 -/
 def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : SailM (Result Bool ExceptionType) := do
   let .physaddr paddr := app_0
---  print_bits_effect s!"htif_store {paddr} {width}" data
+  print_bits_effect s!"htif_store {paddr} {width}" data
   let _ : Unit :=
     bif (get_config_print_platform ())
     then
@@ -698,6 +698,7 @@ def mmio_read (t : (AccessType Unit)) (paddr : physaddr) (width : Nat) : SailM (
 
 /-- Type quantifiers: width : Nat, 0 < width ∧ width ≤ max_mem_access -/
 def mmio_write (paddr : physaddr) (width : Nat) (data : (BitVec (8 * width))) : SailM (Result Bool ExceptionType) := do
+  dbg_trace("mmio write")
   bif (within_clint paddr width)
   then (clint_store paddr width data)
   else
