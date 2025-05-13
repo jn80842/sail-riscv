@@ -186,7 +186,7 @@ def get_config_print_mem (_ : Unit) : Bool :=
   false
 
 def get_config_print_platform (_ : Unit) : Bool :=
-  false
+  true
 
 /-- Type quantifiers: k_n : Int, m : Int, m ≥ k_n -/
 def sign_extend {m : _} (v : (BitVec k_n)) : (BitVec m) :=
