@@ -76,7 +76,7 @@ def plat_term_read : Unit → SailM String := λ _ => panic "TODO: plat_term_rea
 -- Reservations
 def load_reservation : Arch.pa → SailM Unit := λ _ => print_effect "TODO: load_reservation"
 def match_reservation : Arch.pa → Bool := λ _ => panic "TODO: match_reservation"
-def cancel_reservation : Unit → SailM Unit := λ _ => print_effect "TODO: cancel_reservation"
+def cancel_reservation : Unit → SailM Unit := λ _ => print_effect "TODO: cancel_reservation!"
 
 def get_16_random_bits : Unit → SailM (BitVec 16) := λ _ => panic "TODO: get_16_random_bits"
 
