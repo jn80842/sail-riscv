@@ -248,7 +248,7 @@ def loop (_ : Unit) : SailM Unit := do
     while (← (λ (i, step_no) => do (pure (not (← readReg htif_done)))) loop_vars) do
       let (i, step_no) := loop_vars
     --  dbg_trace s!"loop: {loop_vars}"
-    --  dbg_trace s!"reg_htif_done: {(← readReg htif_done)}"
+      dbg_trace s!"reg_htif_done: {(← readReg htif_done)}"
       loop_vars ← do
         let stepped ← do (step step_no)
         (my_print_step ())
