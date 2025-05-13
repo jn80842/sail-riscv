@@ -579,6 +579,7 @@ def htif_load (t : (AccessType Unit)) (app_1 : physaddr) (width : Nat) : SailM (
 def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : SailM (Result Bool ExceptionType) := do
   let .physaddr paddr := app_0
   print_bits_effect s!"htif_store {paddr} {width}" data
+  dbg_trace s!"htif_store width {width}"
   let _ : Unit :=
     bif (get_config_print_platform ())
     then
@@ -704,7 +705,8 @@ def mmio_write (paddr : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
   else
     (do
       bif (Bool.and (within_htif_writable paddr width) (width ≤b 8))
-      then (htif_store paddr width data)
+      then (dbg_trace "mmio writes calls htif_store"
+        (htif_store paddr width data))
       else (pure (Err (E_SAMO_Access_Fault ()))))
 
 def init_platform (_ : Unit) : SailM Unit := do
