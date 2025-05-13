@@ -10723,6 +10723,7 @@ def execute_STORECON (aq : Bool) (rl : Bool) (rs2 : regidx) (rs1 : regidx) (widt
                   then
                     (do
                       (wX_bits rd (zero_extend (m := ((2 ^i 3) *i 8)) (0b1 : (BitVec 1))))
+                      dbg_trace("cancel reservatin and retire success 1")
                       (cancel_reservation ())
                       (pure RETIRE_SUCCESS))
                   else
@@ -10738,10 +10739,12 @@ def execute_STORECON (aq : Bool) (rl : Bool) (rs2 : regidx) (rs1 : regidx) (widt
                               (Bool.and aq rl) rl true)) with
                           | .Ok true => (do
                               (wX_bits rd (zero_extend (m := ((2 ^i 3) *i 8)) (0b0 : (BitVec 1))))
+                              dbg_trace("cancel reservatin and retire success 2")
                               (cancel_reservation ())
                               (pure RETIRE_SUCCESS))
                           | .Ok false => (do
                               (wX_bits rd (zero_extend (m := ((2 ^i 3) *i 8)) (0b1 : (BitVec 1))))
+                              dbg_trace("cancel reservatin and retire success 3")
                               (cancel_reservation ())
                               (pure RETIRE_SUCCESS))
                           | .Err e => (do
