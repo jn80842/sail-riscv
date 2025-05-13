@@ -581,7 +581,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
   print_bits_effect s!"htif_store {paddr} {width}" data
   dbg_trace s!"htif_store width {width}"
   let _ : Unit :=
-    bif (get_config_print_platform ())
+    bif (true)
     then
       (print_endline
         (HAppend.hAppend "htif["
@@ -599,6 +599,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
       bif (Bool.and (BEq.beq width 4) (BEq.beq paddr (plat_htif_tohost ())))
       then
         (do
+          dbg_trace "width 4 paddr eq to plat_htif_tohost"
           bif (BEq.beq data (Sail.BitVec.extractLsb (← readReg htif_tohost) 31 0))
           then writeReg htif_payload_writes (BitVec.addInt (← readReg htif_payload_writes) 1)
           else writeReg htif_payload_writes (0x1 : (BitVec 4))
@@ -608,6 +609,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
           bif (Bool.and (BEq.beq width 4) (BEq.beq paddr (BitVec.addInt (plat_htif_tohost ()) 4)))
           then
             (do
+              dbg_trace "width4 and paddr + 4 eq plat_htif_tohost"
               bif (BEq.beq (Sail.BitVec.extractLsb data 15 0)
                    (Sail.BitVec.extractLsb (← readReg htif_tohost) 47 32))
               then writeReg htif_payload_writes (BitVec.addInt (← readReg htif_payload_writes) 1)
@@ -629,7 +631,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
       then
         (do
           let _ : Unit :=
-            bif (get_config_print_platform ())
+            bif (true)
             then
               (print_endline
                 (HAppend.hAppend "htif-syscall-proxy cmd: "
@@ -647,7 +649,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
           then
             (do
               let _ : Unit :=
-                bif (get_config_print_platform ())
+                bif (true)
                 then
                   (print_endline
                     (HAppend.hAppend "htif-term cmd: "
@@ -668,7 +670,7 @@ def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
   (pure (Ok true))
 
 def htif_tick (_ : Unit) : SailM Unit := do
-  bif (get_config_print_platform ())
+  bif (true)
   then
     (pure (print_endline
         (HAppend.hAppend "htif::tick " (BitVec.toFormatted (← readReg htif_tohost)))))
