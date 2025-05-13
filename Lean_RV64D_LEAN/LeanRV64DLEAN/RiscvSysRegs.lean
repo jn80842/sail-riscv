@@ -1094,8 +1094,8 @@ def _set_Sstatus_SUM (r_ref : (RegisterRef (BitVec 64))) (v : (BitVec 1)) : Sail
 --  else m[SXL]
 --}
 def _get_Mstatus_SXL (v : (BitVec 64)) : (BitVec 2) :=
-  (0b01 : (BitVec 2))
-  --(Sail.BitVec.extractLsb v 35 34)
+--  (0b01 : (BitVec 2))
+  (Sail.BitVec.extractLsb v 35 34)
 
 def _set_Mstatus_SXL (r_ref : (RegisterRef (BitVec 64))) (v : (BitVec 2)) : SailM Unit := do
   let r ← do (reg_deref r_ref)
