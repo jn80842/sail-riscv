@@ -322,6 +322,7 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg satp (← (undefined_bitvector ((2 ^i 2) *i 8)))
 
 def sail_model_init (x_0 : Unit) : SailM Unit := do
+  dbg_trace "sail model init 32bit"
   writeReg misa (_update_Misa_MXL (Mk_Misa (zeros (n := 32))) (architecture_forwards RV32))
   writeReg mstatus (let mxl := (architecture_forwards RV32)
   (_update_Mstatus_UXL (_update_Mstatus_SXL (Mk_Mstatus (zeros (n := 64))) (zeros (n := 2)))
