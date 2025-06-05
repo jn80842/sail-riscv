@@ -1,4 +1,5 @@
-import LeanRV64DExecutable.RiscvFdextRegs
+import LeanRV64DExecutable.RiscvSysRegs
+import LeanRV64DExecutable.RiscvZihpm
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -95,8 +96,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +129,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs

@@ -1,4 +1,6 @@
-import LeanRV64DExecutable.RvfiDii
+import LeanRV64DExecutable.Flow
+import LeanRV64DExecutable.Prelude
+import LeanRV64DExecutable.RiscvXlen
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -95,8 +97,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +130,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs
@@ -166,11 +164,6 @@ open ExecutionResult
 open ExceptionType
 open Architecture
 open AccessType
-
-def hartSupports_measure (ext : extension) : Int :=
-  match ext with
-  | Ext_C => 1
-  | _ => 0
 
 def hartSupports (merge_var : extension) : Bool :=
   match merge_var with
@@ -241,5 +234,4 @@ def hartSupports (merge_var : extension) : Bool :=
   | Ext_Sv48 => ((true : Bool) && (xlen == 64))
   | Ext_Sv57 => ((true : Bool) && (xlen == 64))
   | Ext_Smcntrpmf => true
-termination_by let ext := merge_var; ((hartSupports_measure ext)).toNat
 

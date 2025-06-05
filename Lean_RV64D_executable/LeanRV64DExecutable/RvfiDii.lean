@@ -1,4 +1,5 @@
-import LeanRV64DExecutable.Arithmetic
+import LeanRV64DExecutable.Prelude
+import LeanRV64DExecutable.RiscvErrors
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -95,8 +96,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +129,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs
@@ -186,9 +183,6 @@ def _update_Counteren_bits (v : (BitVec 32)) (x : (BitVec 32)) : (BitVec 32) :=
   (Sail.BitVec.updateSubrange v (32 -i 1) 0 x)
 
 def _update_Counterin_bits (v : (BitVec 32)) (x : (BitVec 32)) : (BitVec 32) :=
-  (Sail.BitVec.updateSubrange v (32 -i 1) 0 x)
-
-def _update_Fcsr_bits (v : (BitVec 32)) (x : (BitVec 32)) : (BitVec 32) :=
   (Sail.BitVec.updateSubrange v (32 -i 1) 0 x)
 
 def _update_HpmEvent_bits (v : (BitVec 64)) (x : (BitVec 64)) : (BitVec 64) :=
@@ -279,9 +273,6 @@ def _get_Counteren_bits (v : (BitVec 32)) : (BitVec 32) :=
 def _get_Counterin_bits (v : (BitVec 32)) : (BitVec 32) :=
   (Sail.BitVec.extractLsb v (32 -i 1) 0)
 
-def _get_Fcsr_bits (v : (BitVec 32)) : (BitVec 32) :=
-  (Sail.BitVec.extractLsb v (32 -i 1) 0)
-
 def _get_HpmEvent_bits (v : (BitVec 64)) : (BitVec 64) :=
   (Sail.BitVec.extractLsb v (64 -i 1) 0)
 
@@ -368,10 +359,6 @@ def _set_Counteren_bits (r_ref : (RegisterRef (BitVec 32))) (v : (BitVec 32)) : 
 def _set_Counterin_bits (r_ref : (RegisterRef (BitVec 32))) (v : (BitVec 32)) : SailM Unit := do
   let r ← do (reg_deref r_ref)
   writeRegRef r_ref (_update_Counterin_bits r v)
-
-def _set_Fcsr_bits (r_ref : (RegisterRef (BitVec 32))) (v : (BitVec 32)) : SailM Unit := do
-  let r ← do (reg_deref r_ref)
-  writeRegRef r_ref (_update_Fcsr_bits r v)
 
 def _set_HpmEvent_bits (r_ref : (RegisterRef (BitVec 64))) (v : (BitVec 64)) : SailM Unit := do
   let r ← do (reg_deref r_ref)

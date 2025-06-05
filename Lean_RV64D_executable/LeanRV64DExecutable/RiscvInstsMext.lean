@@ -1,4 +1,10 @@
-import LeanRV64DExecutable.RiscvInstsZalrsc
+import LeanRV64DExecutable.Sail.Sail
+import LeanRV64DExecutable.Sail.BitVec
+import LeanRV64DExecutable.Sail.IntRange
+import LeanRV64DExecutable.Defs
+import LeanRV64DExecutable.Specialization
+import LeanRV64DExecutable.FakeReal
+import LeanRV64DExecutable.RiscvExtrasExecutable
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -95,8 +101,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +134,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs
@@ -282,7 +284,7 @@ def maybe_not_u_backwards (arg_ : String) : SailM Bool := do
       assert false "Pattern match failure at unknown location"
       throw Error.Exit)
 
-/-- Type quantifiers: k_ex377188# : Bool -/
+/-- Type quantifiers: k_ex134966# : Bool -/
 def maybe_not_u_forwards_matches (arg_ : Bool) : Bool :=
   match arg_ with
   | false => true

@@ -1,3 +1,10 @@
+import LeanRV64DExecutable.Flow
+import LeanRV64DExecutable.Prelude
+import LeanRV64DExecutable.PreludeMemAddrtype
+import LeanRV64DExecutable.RiscvSysRegs
+import LeanRV64DExecutable.RiscvAddrChecks
+import LeanRV64DExecutable.RiscvMem
+import LeanRV64DExecutable.RiscvVmem
 import LeanRV64DExecutable.RiscvFetchRvfi
 
 set_option maxHeartbeats 1_000_000_000
@@ -95,8 +102,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +135,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs

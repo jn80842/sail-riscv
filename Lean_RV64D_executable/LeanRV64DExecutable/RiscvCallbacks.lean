@@ -1,4 +1,6 @@
-import LeanRV64DExecutable.RiscvVmemTypes
+import LeanRV64DExecutable.HexBits
+import LeanRV64DExecutable.RiscvXlen
+import LeanRV64DExecutable.RiscvTypes
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -95,8 +97,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +130,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs
@@ -506,9 +504,6 @@ def csr_name_map_backwards (arg_ : String) : SailM (BitVec 12) := do
   | "minstret" => (some (0xB02 : (BitVec 12)))
   | "mcycleh" => (some (0xB80 : (BitVec 12)))
   | "minstreth" => (some (0xB82 : (BitVec 12)))
-  | "fflags" => (some (0x001 : (BitVec 12)))
-  | "frm" => (some (0x002 : (BitVec 12)))
-  | "fcsr" => (some (0x003 : (BitVec 12)))
   | "mcyclecfg" => (some (0x321 : (BitVec 12)))
   | "mcyclecfgh" => (some (0x721 : (BitVec 12)))
   | "minstretcfg" => (some (0x322 : (BitVec 12)))

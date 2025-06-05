@@ -1,3 +1,6 @@
+import LeanRV64DExecutable.Flow
+import LeanRV64DExecutable.Prelude
+import LeanRV64DExecutable.RiscvXlen
 import LeanRV64DExecutable.RiscvSysRegs
 
 set_option maxHeartbeats 1_000_000_000
@@ -95,8 +98,6 @@ open fvvfunct6
 open fvfmfunct6
 open fvfmafunct6
 open fvffunct6
-open fregno
-open fregidx
 open f_un_x_op_H
 open f_un_x_op_D
 open f_un_rm_xf_op_S
@@ -130,9 +131,7 @@ open exception
 open ctl_result
 open csrop
 open cregidx
-open checked_cbop
 open cbop_zicbom
-open cbie
 open bropw_zbb
 open bropw_zba
 open brop_zbs
@@ -285,7 +284,7 @@ def pmpWriteCfgReg (n : Nat) (v : (BitVec (2 ^ 3 * 8))) : SailM Unit := do
           (Sail.BitVec.extractLsb v ((8 *i i) +i 7) (8 *i i))))
   (pure loop_vars)
 
-/-- Type quantifiers: k_ex372753# : Bool, k_ex372752# : Bool -/
+/-- Type quantifiers: k_ex130911# : Bool, k_ex130910# : Bool -/
 def pmpWriteAddr (locked : Bool) (tor_locked : Bool) (reg : (BitVec (2 ^ 3 * 8))) (v : (BitVec (2 ^ 3 * 8))) : (BitVec (2 ^ 3 * 8)) :=
   bif (locked || tor_locked)
   then reg
