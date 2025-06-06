@@ -1,4 +1,4 @@
-import LeanRV64DLEAN.RiscvStep
+import LeanRV64DExecutable.RiscvStep
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 10_000
@@ -7,7 +7,7 @@ set_option match.ignoreUnusedAlts true
 
 open Sail
 
-namespace LeanRV64DLEAN.Functions
+namespace LeanRV64DExecutable.Functions
 
 open zicondop
 open wxfunct6
@@ -170,8 +170,7 @@ def sail_main (_ : Unit) : SailM Unit := do
       dbg_trace "sail_main 2"
       (cycle_count ())
       dbg_trace "sail_main 3"
-      (loop ()))) (fun the_exception => 
+      (loop ()))) (fun the_exception =>
     match the_exception with
       | .Error_not_implemented s => (pure (print_string "Error: Not implemented: " s))
       | .Error_internal_error () => (pure (print "Error: internal error")))
-
