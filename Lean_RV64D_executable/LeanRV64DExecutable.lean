@@ -1,4 +1,4 @@
-import LeanRV64DExecutable.RiscvStep
+import LeanRV64DExecutable.Main
 
 set_option maxHeartbeats 1_000_000_000
 set_option maxRecDepth 1_000_000
@@ -309,3 +309,9 @@ def sail_model_init (x_0 : Unit) : SailM Unit := do
   (initialize_registers ())
 
 end LeanRV64DExecutable.Functions
+
+open LeanRV64DExecutable.Functions
+
+/- def main (_ : List String) : IO UInt32 := do
+  main_of_sail_main ⟨default, (), default, default, default, default⟩ (sail_model_init >=> sail_main)
+-/
