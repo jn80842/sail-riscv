@@ -440,12 +440,13 @@ def loop (_ : Unit) : SailM Unit := do
   (pure ())
 
 def reset (_ : Unit) : SailM Unit := do
+  dbg_trace("reset")
   (reset_sys ())
   (reset_vmem ())
   (pure (ext_reset ()))
 
 def init_model (_ : Unit) : SailM Unit := do
+  dbg_trace("init_model")
   writeReg hart_state (HART_ACTIVE ())
   (init_platform ())
   (reset ())
-
