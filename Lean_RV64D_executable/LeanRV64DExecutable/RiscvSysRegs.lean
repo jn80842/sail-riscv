@@ -694,6 +694,7 @@ def currentlyEnabled (merge_var : extension) : SailM Bool := do
   | Ext_Zimop => (pure (hartSupports Ext_Zimop))
   | Ext_Zcmop => (pure ((hartSupports Ext_Zcmop) && (← (currentlyEnabled Ext_Zca))))
   | Ext_Zicboz => (pure false)
+  | Ext_Zicbom => (pure false)
   | _ => (do
       assert false s!"Pattern match failure at riscv_insts_zcmop.sail:9.0-9.78: {repr merge_var}"
       throw Error.Exit)
