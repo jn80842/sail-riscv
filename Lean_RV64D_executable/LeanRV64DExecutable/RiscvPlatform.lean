@@ -599,6 +599,7 @@ def htif_load (t : (AccessType Unit)) (app_1 : physaddr) (width : Nat) : SailM (
 
 /-- Type quantifiers: width : Nat, 0 < width ∧ width ≤ 8 -/
 def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : SailM (Result Bool ExceptionType) := do
+  dbg_trace("htif_store")
   let .Physaddr paddr := app_0
   let _ : Unit :=
     bif (get_config_print_platform ())
