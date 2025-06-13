@@ -396,11 +396,13 @@ def try_step (step_no : Nat) (exit_wait : Bool) : SailM Bool := do
       (pure true))
 
 def loop (_ : Unit) : SailM Unit := do
+  dbg_trace("entered loop")
   let i : Nat := 0
   let step_no : Nat := 0
   let (i, step_no) ← (( do
     let mut loop_vars := (i, step_no)
     while (← (λ (i, step_no) => do (pure (not (← readReg htif_done)))) loop_vars) do
+      dbg_trace(s!"loop step {i}")
       let (i, step_no) := loop_vars
       loop_vars ← do
         let stepped ← do (try_step step_no true)
