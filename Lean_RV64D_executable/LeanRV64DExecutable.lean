@@ -172,7 +172,7 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg rvfi_int_data_present (← (undefined_bool ()))
   writeReg rvfi_mem_data (← (undefined_RVFI_DII_Execution_Packet_Ext_MemAccess ()))
   writeReg rvfi_mem_data_present (← (undefined_bool ()))
-  writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  --writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg nextPC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg x1 (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg x2 (← (undefined_bitvector ((2 ^i 3) *i 8)))
