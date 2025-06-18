@@ -169,7 +169,7 @@ def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
 
 def sail_main (_ : Unit) : SailM Unit := do
   dbg_trace("In sail_main")
-  writeReg PC (get_entry_point ())
+--  writeReg PC (get_entry_point ())
   (pure (print_bits "PC = " (← readReg PC)))
   sailTryCatch ((do
       (init_model ())
