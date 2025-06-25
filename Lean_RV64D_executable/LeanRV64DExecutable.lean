@@ -164,7 +164,6 @@ open Architecture
 open AccessType
 
 def initialize_registers (_ : Unit) : SailM Unit := do
-  dbg_trace("entered initialize_registers")
   writeReg rvfi_instruction (← (undefined_RVFI_DII_Instruction_Packet ()))
   writeReg rvfi_inst_data (← (undefined_RVFI_DII_Execution_Packet_InstMetaData ()))
   writeReg rvfi_pc_data (← (undefined_RVFI_DII_Execution_Packet_PC ()))
@@ -172,7 +171,7 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg rvfi_int_data_present (← (undefined_bool ()))
   writeReg rvfi_mem_data (← (undefined_RVFI_DII_Execution_Packet_Ext_MemAccess ()))
   writeReg rvfi_mem_data_present (← (undefined_bool ()))
-  --writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
+  writeReg PC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg nextPC (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg x1 (← (undefined_bitvector ((2 ^i 3) *i 8)))
   writeReg x2 (← (undefined_bitvector ((2 ^i 3) *i 8)))
@@ -281,7 +280,6 @@ def initialize_registers (_ : Unit) : SailM Unit := do
   writeReg satp (← (undefined_bitvector ((2 ^i 3) *i 8)))
 
 def sail_model_init (x_0 : Unit) : SailM Unit := do
-  dbg_trace("entered sail_model_init")
   writeReg misa (_update_Misa_MXL (Mk_Misa (zeros (n := 64))) (architecture_forwards RV64))
   writeReg mstatus (let mxl := (architecture_forwards RV64)
   (_update_Mstatus_UXL
@@ -314,6 +312,5 @@ end LeanRV64DExecutable.Functions
 
 open LeanRV64DExecutable.Functions
 
-/- def main (_ : List String) : IO UInt32 := do
+def main (_ : List String) : IO UInt32 := do
   main_of_sail_main ⟨default, (), default, default, default, default⟩ (sail_model_init >=> sail_main)
--/

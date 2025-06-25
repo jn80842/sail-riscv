@@ -512,7 +512,6 @@ def sail_take_exception [Arch] (_ : Arch.fault) : PreSailM RegisterType c ue Uni
 def sail_return_exception [Arch] (_ : Arch.pa) : PreSailM RegisterType c ue Unit := pure ()
 
 def cycle_count (_ : Unit) : PreSailM RegisterType c ue Unit :=
-  dbg_trace("cycle count")
   modify fun s => { s with cycleCount := s.cycleCount + 1 }
 
 def get_cycle_count (_ : Unit) : PreSailM RegisterType c ue Nat := do

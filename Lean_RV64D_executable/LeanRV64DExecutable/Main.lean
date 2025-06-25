@@ -168,13 +168,13 @@ def get_entry_point (_ : Unit) : (BitVec (2 ^ 3 * 8)) :=
   (zero_extend (m := ((2 ^i 3) *i 8)) (0x1000 : (BitVec 16)))
 
 def sail_main (_ : Unit) : SailM Unit := do
-  dbg_trace("In sail_main")
---  writeReg PC (get_entry_point ())
+  writeReg PC (get_entry_point ())
   (pure (print_bits "PC = " (← readReg PC)))
   sailTryCatch ((do
       (init_model ())
       (cycle_count ())
-      (loop ()))) (fun the_exception =>
+      (loop ()))) (fun the_exception => 
     match the_exception with
       | .Error_not_implemented s => (pure (print_string "Error: Not implemented: " s))
       | .Error_internal_error () => (pure (print "Error: internal error")))
+

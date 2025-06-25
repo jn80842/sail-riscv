@@ -1,6 +1,6 @@
 name = "Lean_RV64D_executable"
 defaultTargets = ["LeanRV64DExecutable"]
-moreLeanArgs = ["--tstack=400000"]
+moreLeanArgs = ["--tstack=400000 -D PRINT_EFFECTS"]
 moreLeancArgs = ["-fbracket-depth=512"]
 
 [[lean_lib]]

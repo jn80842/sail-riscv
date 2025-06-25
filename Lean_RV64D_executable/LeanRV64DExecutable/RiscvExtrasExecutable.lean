@@ -60,7 +60,7 @@ section Effectful
 
 variable {Register : Type} {RegisterType : Register → Type} [DecidableEq Register] [Hashable Register]
 
-def plat_term_write {α} : α → SailM Unit := λ _ => panic "TODO plat_term_write"
+def plat_term_write {α} : α → SailM Unit := λ _ => panic "TODO"
 def plat_term_read : Unit → SailM String := λ _ => panic "TODO"
 
 -- Reservations

@@ -599,7 +599,6 @@ def htif_load (t : (AccessType Unit)) (app_1 : physaddr) (width : Nat) : SailM (
 
 /-- Type quantifiers: width : Nat, 0 < width ∧ width ≤ 8 -/
 def htif_store (app_0 : physaddr) (width : Nat) (data : (BitVec (8 * width))) : SailM (Result Bool ExceptionType) := do
-  dbg_trace("htif_store")
   let .Physaddr paddr := app_0
   let _ : Unit :=
     bif (get_config_print_platform ())
@@ -723,7 +722,6 @@ def mmio_write (paddr : physaddr) (width : Nat) (data : (BitVec (8 * width))) : 
       else (pure (Err (E_SAMO_Access_Fault ()))))
 
 def init_platform (_ : Unit) : SailM Unit := do
-  dbg_trace("init platform")
   writeReg htif_tohost (zeros (n := 64))
   writeReg htif_done false
   writeReg htif_exit_code (zeros (n := 64))
@@ -743,3 +741,4 @@ def handle_illegal (instbits : (BitVec 32)) : SailM Unit := do
 
 def platform_wfi (_ : Unit) : Unit :=
   ()
+

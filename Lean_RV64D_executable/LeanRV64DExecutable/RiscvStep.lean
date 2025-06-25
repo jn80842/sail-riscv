@@ -330,16 +330,12 @@ def wait_is_nop (wr : WaitReason) : Bool :=
 
 /-- Type quantifiers: k_ex151353# : Bool, step_no : Nat, 0 ≤ step_no -/
 def try_step (step_no : Nat) (exit_wait : Bool) : SailM Bool := do
-  dbg_trace(s!"try_step {step_no}")
   let _ : Unit := (ext_pre_step_hook ())
-  dbg_trace("write to mistret_increment reg")
   writeReg minstret_increment (← (should_inc_minstret (← readReg cur_privilege)))
-  dbg_trace("read and match hart_state")
   let step_val ← (( do
     match (← readReg hart_state) with
     | .HART_WAITING (wr, instbits) => (run_hart_waiting step_no wr instbits exit_wait)
     | .HART_ACTIVE () => (run_hart_active step_no) ) : SailM Step )
-  dbg_trace("match step_val")
   match step_val with
   | .Step_Pending_Interrupt (intr, priv) =>
     (do
@@ -400,17 +396,14 @@ def try_step (step_no : Nat) (exit_wait : Bool) : SailM Bool := do
       (pure true))
 
 def loop (_ : Unit) : SailM Unit := do
-  dbg_trace("entered loop")
   let i : Nat := 0
   let step_no : Nat := 0
   let (i, step_no) ← (( do
     let mut loop_vars := (i, step_no)
     while (← (λ (i, step_no) => do (pure (not (← readReg htif_done)))) loop_vars) do
-      dbg_trace(s!"loop step {i}")
       let (i, step_no) := loop_vars
       loop_vars ← do
         let stepped ← do (try_step step_no true)
-        dbg_trace("finished try_step")
         let step_no ← (( do
           bif stepped
           then
@@ -447,13 +440,12 @@ def loop (_ : Unit) : SailM Unit := do
   (pure ())
 
 def reset (_ : Unit) : SailM Unit := do
-  dbg_trace("reset")
   (reset_sys ())
   (reset_vmem ())
   (pure (ext_reset ()))
 
 def init_model (_ : Unit) : SailM Unit := do
-  dbg_trace("init_model")
   writeReg hart_state (HART_ACTIVE ())
   (init_platform ())
   (reset ())
+
