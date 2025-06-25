@@ -311,6 +311,3 @@ def sail_model_init (x_0 : Unit) : SailM Unit := do
 end LeanRV64DExecutable.Functions
 
 open LeanRV64DExecutable.Functions
-
-def main (_ : List String) : IO UInt32 := do
-  main_of_sail_main ⟨default, (), default, default, default, default⟩ (sail_model_init >=> sail_main)
