@@ -693,6 +693,8 @@ def currentlyEnabled (merge_var : extension) : SailM Bool := do
   | Ext_Zvbc => (pure ((hartSupports Ext_Zvbc) && (← (currentlyEnabled Ext_V))))
   | Ext_Zimop => (pure (hartSupports Ext_Zimop))
   | Ext_Zcmop => (pure ((hartSupports Ext_Zcmop) && (← (currentlyEnabled Ext_Zca))))
+  | Ext_Zicboz => (pure false)
+  | Ext_Zicbom => (pure false)
   | _ =>
     (do
       assert false "Pattern match failure at riscv_insts_zcmop.sail:9.0-9.97"
@@ -2129,4 +2131,3 @@ def get_vtype_vma (_ : Unit) : SailM agtype := do
 
 def get_vtype_vta (_ : Unit) : SailM agtype := do
   (pure (decode_agtype (_get_Vtype_vta (← readReg vtype))))
-
